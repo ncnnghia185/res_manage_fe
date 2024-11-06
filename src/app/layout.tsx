@@ -1,9 +1,11 @@
 "use client";
 
 import "./globals.css";
-import { Provider } from "react-redux"; // Import Provider từ react-redux
-import { store } from "@/redux/store"; // Import store Redux của bạn
-
+import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import { store, persistor } from "@/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -12,7 +14,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            {children}
+            <ToastContainer
+              position="top-right"
+              autoClose={1500}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </PersistGate>
+        </Provider>
       </body>
     </html>
   );

@@ -17,7 +17,7 @@ export const SidebarLink = ({
 }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
+    pathname === href || (pathname === "/dashboard" && href === "/dashboard");
 
   return (
     <Link href={href} className="w-full ">
