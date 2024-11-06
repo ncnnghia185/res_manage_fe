@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API
 
 interface loginDataType  {
-	user:string,
+	username:string,
 	password:string
 }
 
@@ -14,7 +14,9 @@ interface registerDataType{
 	phone: string
 }
 export const loginAccount = async (data:loginDataType) =>{
-	const response = await axios.post(`${BASE_URL}/owner/login-account`, data)
+	const response = await axios.post(`${BASE_URL}/owner/login-account`, data, {
+	})
+	
 	return response.data
 }
 

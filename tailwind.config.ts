@@ -8,10 +8,10 @@ const baseColors = [
   "red",
   "yellow",
   "green",
+  "slate",
   "blue",
   "black",
   "white",
-  "slate"
 ];
 
 const shadeMapping = {
@@ -24,9 +24,7 @@ const shadeMapping = {
   "600": "300",
   "700": "200",
   "800": "100",
-  "900": "50",
-  "black":"black",
-  "white":"black"
+  "900": "50"
 };
 
 const generateThemeObject = (colors: any, mapping: any, invert = false) => {
