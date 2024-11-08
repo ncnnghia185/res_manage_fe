@@ -73,7 +73,7 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/inventory"
+          href="/table"
           icon={TableCellsSplit}
           label={
             language === "en" ? translations.en.table : translations.vi.table

@@ -1,7 +1,6 @@
 import axios from "axios";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API;
 import { checkImageFileValid } from "@/utils/utils";
-import { translations } from "@/constants/language/translation";
 
 // CATEGORY NEW DATA TYPES
 interface categoryDataType {
