@@ -56,7 +56,7 @@ const LoginForm = () => {
         dispatch(login(response?.accessToken));
         dispatch(setUserId(response?.userId));
         router.push("/dashboard");
-        toast(
+        toast.success(
           language === "en"
             ? translations.en.login_success
             : translations.vi.login_success

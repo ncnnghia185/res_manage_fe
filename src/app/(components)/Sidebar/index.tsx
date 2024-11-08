@@ -65,7 +65,7 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/products"
+          href="/menu"
           icon={Clipboard}
           label={
             language === "en" ? translations.en.menu : translations.vi.menu

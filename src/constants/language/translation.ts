@@ -1,5 +1,6 @@
 export const translations = {
   en: {
+    // navbar options translations
     collapse: "Collapse",
     extend: "Extend",
     dark: "Dark",
@@ -8,6 +9,13 @@ export const translations = {
     setting: "Settings",
     logout: "Logout",
     search: "Type to search .....",
+    add_new: "Add new",
+    update:"Update",
+    delete:"Delete",
+    save_update: "Save",
+    cancel_update:"Cancel",
+    filter:"Filter",
+    // login and register translations
     username:"Email or phone number",
     password: "Password",
     required_username: "Email or phone number is required",
@@ -26,13 +34,33 @@ export const translations = {
     login_with_google:"Login with Google",
     not_have_accout:"Not have account?",
     already_have_account:"Already have an account?",
+    // sidebar options translations
     manage: "Restaurant Manage",
     dashboard: "Dashboard",
     menu: "Menu",
-    table: "Tables"
-
+    table: "Tables",
+    invalid_image: "Invalid file type. Only .jpg, .png, and .gif are allowed.",
+    // menu manage
+    menu_manage: "menu manage",
+    filter_menu:"Filter",
+    category_menu: "Categories",
+    create_category:"Add new category",
+    create_category_label:"New Category",
+    total_count_menu: "Total menu items :",
+    label_all_categories: "All categories",
+    success_add_new_category: "Success add new category",
+    error_add_new_category: "Failed add new category",
+    error_list_categories: "Error get all categories",
+    update_category: "Update Category",
+    success_update_category:"Success update category",
+    error_update_category:"Failed update category",
+    name_asc: "A to Z",
+    name_desc: "Z to A",
+    price_asc: "Low to High",
+    price_desc: "High to Low",
   },
   vi: {
+    // navbar options translations
     collapse: "Thu gọn",
     extend: "Mở rộng",
     dark: "Tối",
@@ -41,6 +69,13 @@ export const translations = {
     setting:"Cài đặt",
     logout:"Đăng xuất",
     search: "Tìm kiếm .....",
+    add_new: "Thêm mới",
+    update:"Cập nhật",
+    delete:"Xóa",
+    save_update: "Lưu",
+    cancel_update:"Hủy",
+    filter:"Bộ lọc",
+    // login and register translations
     username:"Email hoặc số điện thoại",
     password:"Mật khẩu",
     required_username:"Email hoặc Số điện thoại là bắt buộc",
@@ -59,9 +94,31 @@ export const translations = {
     login_with_google:"Đăng nhập với Google",
     not_have_accout:"Bạn chưa có tài khoản?",
     already_have_account:"Bạn đã có tài khoản?",
+
+    // sidebar options translations
     manage: "Quản lý nhà hàng",
     dashboard: "Trang chủ",
     menu: "Thực đơn",
-    table: "Bàn ăn"
+    table: "Bàn ăn",
+    invalid_image:"File không hợp lệ. Chỉ chấp nhận các định dạng .jpg, .png, và .gif",
+
+    // menu manage
+    menu_manage: "quản lý thực đơn",
+    filter_menu:"Bộ lọc",
+    category_menu:"Danh mục",
+    create_category:"Thêm mới danh mục",
+    create_category_label:"Danh mục mới",
+    total_count_menu:"Tổng số món ăn :",
+    label_all_categories:"Tất cả danh mục",
+    success_add_new_category:"Tạo mới danh mục thành công",
+    error_add_new_category:"Tạo mới danh mục thất bại",
+    error_list_categories:"Lỗi lấy tất cả danh mục",
+    update_category:"Cập nhật danh mục",
+    success_update_category:"Cập nhật danh mục thành công",
+    error_update_category:"Cập nhật danh mục thất bại",
+    name_asc: "A đến Z",
+    name_desc: "Z đến A",
+    price_asc: "Thấp đến Cao",
+    price_desc: "Cao đến Thấp",
   },
 };

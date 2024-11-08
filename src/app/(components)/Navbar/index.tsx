@@ -91,7 +91,7 @@ const Navbar = () => {
             language === "en" ? translations.en.search : translations.vi.search
           }
         />
-        <Search className="absolute top-7 right-9 cursor-pointer text-slate-800" />
+        <Search className="absolute top-6 right-9 cursor-pointer text-slate-800" />
       </div>
 
       {/* Options */}
@@ -144,7 +144,7 @@ const Navbar = () => {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar className="w-8 h-8">M</Avatar>
+                  <Avatar className="w-5 h-5">M</Avatar>
                 </IconButton>
               </Tooltip>
             </Box>

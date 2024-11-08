@@ -20,10 +20,12 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import storage from "redux-persist/lib/storage"; 
 import { globalReducer } from "@/redux/globalState/globalSlice";
 import { userReducer } from "@/redux/authState/authSlice";
+import { categoryReducer } from "@/redux/menuState/categorySlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
   auth: userReducer,
+  category: categoryReducer
 });
 
 const persistConfig = {
