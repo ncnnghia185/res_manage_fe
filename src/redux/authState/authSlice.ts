@@ -19,7 +19,7 @@ export const userSlice = createSlice({
     login: (state, action: PayloadAction<any>) => {
       state.isLoggedIn = true;
       state.user = action.payload;
-      Cookies.set("isLoggedIn",state.user );
+      Cookies.set("isLoggedIn", state.user);
     },
     logout: (state) => {
       state.isLoggedIn = false;
