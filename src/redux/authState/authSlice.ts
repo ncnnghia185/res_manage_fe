@@ -24,6 +24,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = "";
+      state.userId = null
       Cookies.remove("isLoggedIn");
     },
     setUserId: (state, action: PayloadAction<any>) => {

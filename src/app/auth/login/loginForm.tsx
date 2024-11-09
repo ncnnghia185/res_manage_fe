@@ -4,13 +4,18 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
-import { authServices } from "@/services";
+import { authServices, restaurantServices } from "@/services";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { translations } from "@/constants/language/translation";
 import { setUserId, login } from "@/redux/authState/authSlice";
+import { AllRestaurantResponse, AuthResponse } from "@/services/apiResponse";
+import {
+  setAllRestaurants,
+  setSelectedRestaurant,
+} from "@/redux/restaurantState/restaurantSlice";
 const LoginForm = () => {
   const dispatch = useAppDispatch();
-  const language = useAppSelector((state) => state.global.language);
+
   const router = useRouter();
   interface LoginValues {
     username: string;
@@ -21,14 +26,10 @@ const LoginForm = () => {
   // validate login input
   const validateSchema = Yup.object().shape({
     username: Yup.string()
-      .required(
-        language === "en"
-          ? translations.en.required_username
-          : translations.vi.required_username
-      )
+      .required("bắt buộc")
       .test(
         "is-valid",
-        language === "en" ? translations.en : translations.vi,
+
         (value) => {
           // check email
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,11 +38,7 @@ const LoginForm = () => {
           return emailRegex.test(value) || phoneRegex.test(value);
         }
       ),
-    password: Yup.string().required(
-      language === "en"
-        ? translations.en.required_password
-        : translations.vi.required_password
-    ),
+    password: Yup.string().required("bắt buộc"),
   });
 
   // handle submit
@@ -50,30 +47,32 @@ const LoginForm = () => {
     { setSubmitting }: FormikHelpers<LoginValues>
   ) => {
     try {
-      const response = await authServices.loginAccount(values);
+      const response: AuthResponse = await authServices.loginAccount(values);
       console.log("check response", response);
       if (response?.errCode === 0) {
-        dispatch(login(response?.accessToken));
-        dispatch(setUserId(response?.userId));
+        dispatch(login(response.accessToken));
+        dispatch(setUserId(response.userId));
+
+        // get all restaurants of user
+        const listRestaurant: AllRestaurantResponse =
+          await restaurantServices.getAllRestaurants(response.userId);
+        if (listRestaurant.success === true) {
+          dispatch(setAllRestaurants(listRestaurant.data));
+        }
+        // identify the biggest restaurant id
+        if (listRestaurant.data.length > 0) {
+          const maxRestaurant = listRestaurant.data.reduce((prev, current) =>
+            current.id > prev.id ? current : prev
+          );
+          dispatch(setSelectedRestaurant(maxRestaurant.id));
+        }
         router.push("/dashboard");
-        toast.success(
-          language === "en"
-            ? translations.en.login_success
-            : translations.vi.login_success
-        );
+        toast.success("thành công");
       } else {
-        toast.error(
-          language === "en"
-            ? translations.en.login_error
-            : translations.vi.login_error
-        );
+        toast.error("thất bại");
       }
     } catch (error) {
-      toast.error(
-        language === "en"
-          ? translations.en.login_error
-          : translations.vi.login_error
-      );
+      toast.error("thất bại");
     } finally {
       setSubmitting(false);
     }
@@ -84,9 +83,7 @@ const LoginForm = () => {
       {/* title */}
       <div className="h-8 w-full flex items-center justify-center">
         <span className="text-lg font-bold text-gray-300 uppercase">
-          {language === "en"
-            ? translations.en.login_title
-            : translations.vi.login_title}
+          đăng nhập
         </span>
       </div>
 
@@ -104,20 +101,14 @@ const LoginForm = () => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                {language === "en"
-                  ? translations.en.username
-                  : translations.vi.username}
+                tài khoản
               </label>
               <Field
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 name="username"
                 type="text"
-                placeholder={
-                  language === "en"
-                    ? translations.en.placeholder_username
-                    : translations.vi.placeholder_username
-                }
+                placeholder="Nhập tên đăng nhập"
               />
               <ErrorMessage
                 name="username"
@@ -130,20 +121,14 @@ const LoginForm = () => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="password"
               >
-                {language === "en"
-                  ? translations.en.password
-                  : translations.vi.password}
+                mật khẩu
               </label>
               <Field
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 name="password"
                 type="password"
-                placeholder={
-                  language === "en"
-                    ? translations.en.placeholder_password
-                    : translations.vi.placeholder_password
-                }
+                placeholder="Nhập mật khẩu"
               />
               <ErrorMessage
                 name="password"
@@ -157,9 +142,7 @@ const LoginForm = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {language === "en"
-                  ? translations.en.login
-                  : translations.vi.login}
+                đăng nhập
               </button>
             </div>
           </Form>

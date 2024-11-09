@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+// package import
+import React, { useState } from "react";
 import {
   Bell,
   LogOut,
@@ -9,16 +11,9 @@ import {
   Calendar,
   Search,
   MenuIcon,
+  Home,
 } from "lucide-react";
 import Tooltip from "@mui/material/Tooltip";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import {
-  setIsDarkMode,
-  setIsSidebarCollapsed,
-  setLanguage,
-} from "@/redux/globalState/globalSlice";
-import { slotProps, menuSlotProps } from "@/constants/customUI/slotProps";
-import { translations } from "@/constants/language/translation";
 import {
   Avatar,
   Badge,
@@ -31,8 +26,23 @@ import {
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
+
+// file import
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import {
+  setIsDarkMode,
+  setIsSidebarCollapsed,
+  setLanguage,
+} from "@/redux/globalState/globalSlice";
+import { slotProps, menuSlotProps } from "@/constants/customUI/slotProps";
+import { translations } from "@/constants/language/translation";
+
+import CreateRestaurant from "@/app/restaurant/component/CreateRestaurant";
+import { logout } from "@/redux/authState/authSlice";
 const Navbar = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   // global state
   const isSidebarCollapsed = useAppSelector(
@@ -40,8 +50,13 @@ const Navbar = () => {
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const language = useAppSelector((state) => state.global.language);
+  const selected_restaurant = useAppSelector(
+    (state) => state.restaurant.selected_restaurants
+  );
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openModalCreateRestaurant, setOpenModalCreateRestaurant] =
+    useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -62,7 +77,19 @@ const Navbar = () => {
   const handleChangeLanguage = (event: SelectChangeEvent) => {
     dispatch(setLanguage(event.target.value));
   };
-
+  // handle open create restaurant modal
+  const handleOpenCreateRestaurantModal = () => {
+    setOpenModalCreateRestaurant(true);
+  };
+  // handle close create restaurant modal
+  const handleCloseCreateRestaurantModal = () => {
+    setOpenModalCreateRestaurant(false);
+  };
+  // handle logout user
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/home");
+  };
   // dark/light tooltip title
   const tooltipDarkModeTitle: string = isDarkMode
     ? translations[language as "en" | "vi"].light
@@ -77,7 +104,7 @@ const Navbar = () => {
         {/* Restaurant name */}
         <div className="w-[90%] h-full flex items-center justify-center">
           <span className="text-sm md:text-xl font-bold text-slate-700">
-            RESTAURANT NAME
+            {selected_restaurant !== null ? selected_restaurant.name : ""}
           </span>
         </div>
       </div>
@@ -158,6 +185,14 @@ const Navbar = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
+              <MenuItem onClick={handleOpenCreateRestaurantModal}>
+                <ListItemIcon>
+                  <Home className="h-6 w-6" />
+                </ListItemIcon>
+                {language === "en"
+                  ? translations.en.add_new_restaurant
+                  : translations.vi.add_new_restaurant}
+              </MenuItem>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <User2 className="h-6 w-6" />
@@ -176,7 +211,7 @@ const Navbar = () => {
                   : translations.vi.setting}
               </MenuItem>
 
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
                   <LogOut className="h-6 w-6" />
                 </ListItemIcon>
@@ -210,6 +245,11 @@ const Navbar = () => {
           </Select>
         </div>
       </div>
+      <CreateRestaurant
+        language={language}
+        isOpen={openModalCreateRestaurant}
+        handleClose={handleCloseCreateRestaurantModal}
+      />
     </div>
   );
 };

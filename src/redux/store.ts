@@ -21,17 +21,19 @@ import storage from "redux-persist/lib/storage";
 import { globalReducer } from "@/redux/globalState/globalSlice";
 import { userReducer } from "@/redux/authState/authSlice";
 import { categoryReducer } from "@/redux/menuState/categorySlice";
+import { restaurantReducer } from "@/redux//restaurantState/restaurantSlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
   auth: userReducer,
-  category: categoryReducer
+  category: categoryReducer,
+  restaurant: restaurantReducer
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "global"], 
+  whitelist: ["auth", "global", "restaurant"], 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
