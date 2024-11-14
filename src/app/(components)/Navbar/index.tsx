@@ -51,7 +51,7 @@ const Navbar = () => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const language = useAppSelector((state) => state.global.language);
   const selected_restaurant = useAppSelector(
-    (state) => state.restaurant.selected_restaurants
+    (state) => state.restaurant.selected_restaurant
   );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openModalCreateRestaurant, setOpenModalCreateRestaurant] =

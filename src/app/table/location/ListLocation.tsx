@@ -1,12 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { menuServices } from "@/services";
-import {
-  deselectAllCategories,
-  setCategories,
-  selectAllCategories,
-  selectCategories,
-} from "@/redux/menuState/categorySlice";
+import { tableServices } from "@/services";
+
 import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { toast } from "react-toastify";
 import {
@@ -21,64 +16,78 @@ import {
 } from "@mui/material";
 import { translations } from "@/constants/language/translation";
 import { Trash, Edit2, MoreVerticalIcon } from "lucide-react";
+import {
+  selectAllLocations,
+  selectLocations,
+  deselectAllLocations,
+  addLocation,
+  fetchAllLocations,
+} from "@/redux/tableState/locationSlice";
+import UpdateLocationModal from "./UpdateLocationModal";
+import { updateLocationName } from "@/services/table/tableServices";
 type props = {
   language: string;
+  accessToken: string;
+  owner_id: number;
+  restaurant_id: number;
 };
-const ListCategory = ({ language }: props) => {
+const ListLocation = ({
+  language,
+  accessToken,
+  owner_id,
+  restaurant_id,
+}: props) => {
   const dispatch = useAppDispatch();
-  const { categories, selected_category } = useAppSelector(
-    (state) => state.category
+  const { all_locations, selected_locations } = useAppSelector(
+    (state) => state.location
   );
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   // category state
-  const [openUpdateCategoryModal, setOpenUpdateCategoryModal] = useState(false);
-  const [updateCategoryId, setUpdateCategoryId] = useState<number | null>();
-  const [openDeleteCategoryModal, setOpenDeleteCategoryModal] = useState(false);
-  const [deleteCategoryId, setDeleteCategoryId] = useState<number | null>();
+  const [openUpdateLocationModal, setOpenUpdateLocationModal] = useState(false);
+  const [updateLocationId, setUpdateLocationId] = useState<number>();
+  const [currentLocationName, setCurrentLocationName] = useState<string>();
+  const [openDeleteLocationModal, setOpenDeleteLocationModal] = useState(false);
+  const [deleteLocationId, setDeleteLocationId] = useState<number | null>();
   const [menuCategory, setMenuCategory] = useState<number | null>(null);
 
   // fetch all categories
   useEffect(() => {
-    const getCategories = async () => {
+    const getLocations = async () => {
+      if (owner_id == null || restaurant_id == null) {
+        return;
+      }
       try {
-        const response = await menuServices.getAllCategories();
-        if (response.success === true) {
-          dispatch(setCategories(response.data));
-        } else {
-          toast.error(
-            language === "en"
-              ? translations.en.error_list_categories
-              : translations.vi.error_list_categories
-          );
-        }
+        dispatch(fetchAllLocations({ accessToken, owner_id, restaurant_id }));
       } catch (error) {
         toast.error(
           language === "en"
-            ? translations.en.error_list_categories
-            : translations.vi.error_list_categories
+            ? translations.en.error_list_locations
+            : translations.vi.error_list_locations
         );
       }
     };
 
-    getCategories();
+    getLocations();
   }, [dispatch]);
 
   // check all children checked
   const isAllSelected =
-    categories.length > 0 && selected_category.length === categories.length;
+    all_locations.length > 0 &&
+    selected_locations.length === all_locations.length;
 
   // handle check "all"
   const handleAllCheck = () => {
     if (isAllSelected) {
-      dispatch(deselectAllCategories());
+      dispatch(deselectAllLocations());
     } else {
-      dispatch(selectAllCategories());
+      dispatch(selectAllLocations());
     }
   };
 
-  // handle check category
-  const handleCheckCategory = (categoryId: number) => {
-    dispatch(selectCategories(categoryId));
+  // handle check location
+  const handleCheckLocation = (locationId: number) => {
+    dispatch(selectLocations(locationId));
   };
 
   // handle menu open
@@ -93,28 +102,29 @@ const ListCategory = ({ language }: props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     setMenuCategory(null);
-    setUpdateCategoryId(null);
-    setOpenUpdateCategoryModal(false);
+    setUpdateLocationId(0);
+    setOpenUpdateLocationModal(false);
   };
   // handle open update category modal
-  const handleOpenUpdate = (categoryId: number) => {
-    setOpenUpdateCategoryModal(true);
-    setUpdateCategoryId(categoryId);
+  const handleOpenUpdate = (locationId: number, locationName: string) => {
+    setOpenUpdateLocationModal(true);
+    setUpdateLocationId(locationId);
+    setCurrentLocationName(locationName);
     setAnchorEl(null);
     setMenuCategory(null);
   };
 
   // handle open delete category modal
-  const handleOpenDelete = (categoryId: number) => {
-    setOpenDeleteCategoryModal(true);
-    setDeleteCategoryId(categoryId);
+  const handleOpenDelete = (locationId: number) => {
+    setOpenDeleteLocationModal(true);
+    setDeleteLocationId(locationId);
     setAnchorEl(null);
     setMenuCategory(null);
   };
   // handle close modal
   const handleCloseUpdateModal = () => {
-    setOpenUpdateCategoryModal(false);
-    setUpdateCategoryId(null);
+    setOpenUpdateLocationModal(false);
+    setUpdateLocationId(0);
   };
   return (
     <div className="h-full w-full pl-2">
@@ -126,31 +136,31 @@ const ListCategory = ({ language }: props) => {
           label={
             <span className="text-slate-800">
               {language === "en"
-                ? translations.en.label_all_categories
-                : translations.vi.label_all_categories}
+                ? translations.en.label_all_location
+                : translations.vi.label_all_location}
             </span>
           }
         />
-        {categories.map((category) => (
+        {all_locations.map((location) => (
           <div
-            key={category.id}
+            key={location.id}
             className="flex items-center group justify-between"
           >
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={selected_category.includes(category.id)}
-                  onChange={() => handleCheckCategory(category.id)}
+                  checked={selected_locations.includes(location.id)}
+                  onChange={() => handleCheckLocation(location.id)}
                 />
               }
-              label={<span className="text-slate-800">{category.name}</span>}
+              label={<span className="text-slate-800">{location.name}</span>}
               className="pl-4"
             />
             {/* Icon button to open menu */}
             <IconButton
               size="small"
-              onClick={(e) => handleMenuOpen(e, category.id)}
-              className={` hover:text-slate-700 opacity-100`}
+              onClick={(e) => handleMenuOpen(e, location.id)}
+              className={`hover:text-slate-700 opacity-100`}
             >
               <MoreVerticalIcon size={18} />
             </IconButton>
@@ -158,32 +168,43 @@ const ListCategory = ({ language }: props) => {
             {/* Dropdown menu */}
             <Menu
               anchorEl={anchorEl}
-              open={menuCategory === category.id}
+              open={menuCategory === location.id}
               onClose={handleMenuClose}
               anchorOrigin={{ vertical: "bottom", horizontal: 100 }}
               transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
               <MenuItem
-                onClick={() => handleOpenUpdate(category.id)}
-                className="bg-blue-300"
+                onClick={() => handleOpenUpdate(location.id, location.name)}
+                sx={{
+                  ":hover": {
+                    backgroundColor: "#ecf0f1",
+                  },
+                }}
               >
                 <ListItemIcon>
-                  <Edit2 size={18} />
+                  <Edit2 size={18} color="#3498db" />
                 </ListItemIcon>
                 <ListItemText>
-                  <span>
+                  <span className="font-base font-semibold">
                     {language === "en"
                       ? translations.en.update
                       : translations.vi.update}
                   </span>
                 </ListItemText>
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={handleMenuClose}
+                sx={{
+                  ":hover": {
+                    backgroundColor: "#ecf0f1",
+                  },
+                }}
+              >
                 <ListItemIcon>
-                  <Trash size={18} />
+                  <Trash size={18} color="#e74c3c" />
                 </ListItemIcon>
                 <ListItemText>
-                  <span>
+                  <span className="font-base font-semibold">
                     {language === "en"
                       ? translations.en.delete
                       : translations.vi.delete}
@@ -194,8 +215,19 @@ const ListCategory = ({ language }: props) => {
           </div>
         ))}
       </FormGroup>
+
+      <UpdateLocationModal
+        isOpen={openUpdateLocationModal}
+        handleClose={handleCloseUpdateModal}
+        owner_id={owner_id}
+        restaurant_id={restaurant_id}
+        accessToken={accessToken}
+        location_id={updateLocationId}
+        location_name={currentLocationName}
+        language={language}
+      />
     </div>
   );
 };
 
-export default ListCategory;
+export default ListLocation;
