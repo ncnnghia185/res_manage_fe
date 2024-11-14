@@ -17,23 +17,27 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
-import storage from "redux-persist/lib/storage"; 
+import storage from "redux-persist/lib/storage";
 import { globalReducer } from "@/redux/globalState/globalSlice";
 import { userReducer } from "@/redux/authState/authSlice";
 import { categoryReducer } from "@/redux/menuState/categorySlice";
-import { restaurantReducer } from "@/redux//restaurantState/restaurantSlice";
+import { restaurantReducer } from "@/redux/restaurantState/restaurantSlice";
+import { locationReducer } from "@/redux/tableState/locationSlice";
+import { tableReducer } from "@/redux/tableState/tableSlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
   auth: userReducer,
   category: categoryReducer,
-  restaurant: restaurantReducer
+  restaurant: restaurantReducer,
+  location: locationReducer,
+  table: tableReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "global", "restaurant"], 
+  whitelist: ["auth", "global", "restaurant"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

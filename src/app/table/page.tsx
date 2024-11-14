@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+// package import
+import React, { useEffect, useState } from "react";
 import IconBreadcrumbs from "@/app/(components)/Breadcrumb";
 import {
   Layout,
@@ -11,48 +12,103 @@ import {
 } from "lucide-react";
 import BaseLayout from "@/app/(components)/BaseLayout";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { translations } from "@/constants/language/translation";
 import { MdClear } from "react-icons/md";
 import {
   Button,
-  Pagination,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
   IconButton,
+  Pagination,
 } from "@mui/material";
 import { FaCircle } from "react-icons/fa";
 import { CiFilter } from "react-icons/ci";
+import { toast } from "react-toastify";
+// file import
+import { translations } from "@/constants/language/translation";
 import CreateLocation from "./location/CreateLocation";
+import ListLocation from "./location/ListLocation";
+import CreateTable from "./components/CreateModal";
+import { fetchAllTables } from "@/redux/tableState/tableSlice";
+import { getAllTables } from "@/services/table/tableServices";
+import { GetAllTablesResponse, TableData } from "@/services/apiResponse";
+import TableItem from "../(components)/TableItem";
+// import Pagination from "../(components)/Pagination";
 
 type Props = {};
 
 const TablePage = (props: Props) => {
+  const dispatch = useAppDispatch();
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const language = useAppSelector((state) => state.global.language);
-  // menu item state
+  const { user, userId } = useAppSelector((state) => state.auth);
+  const restaurantId = useAppSelector(
+    (state) => state.restaurant.selected_restaurant.id
+  );
+  const allTables = useAppSelector((state) => state.table.all_tables);
+  const allLocations = useAppSelector((state) => state.location.all_locations);
+  const selected_locations = useAppSelector(
+    (state) => state.location.selected_locations
+  );
+
+  // table state
+
   const [openCreateMenuModal, setOpenCreateMenuModal] = useState(false);
-  const [openUpdateMenuModal, setOpenUpdateMenuModal] = useState(false);
-  const [openDeleteMenuModal, setOpenDeleteMenuModal] = useState(false);
   const [openDetailMenuDrawer, setOpenDetailMenuDrawer] = useState(false);
   const [sortOption, setSortOption] = useState<string>("");
+  const [tablesDisplay, setTablesDisplay] = useState<TableData[]>([]);
+  // fetch all tables
+  useEffect(() => {
+    const fetchTables = async () => {
+      try {
+        dispatch(
+          fetchAllTables({
+            accessToken: user,
+            owner_id: userId,
+            restaurant_id: restaurantId,
+          })
+        );
+      } catch (error) {
+        toast.error(
+          language === "en"
+            ? translations.en.error_list_table
+            : translations.vi.error_list_table
+        );
+      }
+    };
+
+    fetchTables();
+  }, [dispatch, userId, restaurantId]);
+  // filter table with locations
+  const filterTables =
+    selected_locations.length > 0
+      ? allTables.filter((table) =>
+          selected_locations.includes(table.location_id)
+        )
+      : allTables;
 
   // handle change select option
   const handleChange = (event: SelectChangeEvent) => {
-    setSortOption(event.target.value);
     const filterValue = event.target.value;
-    if (filterValue === "") {
-      console.log("no filter");
-    } else {
-      console.log("check filter", filterValue);
-    }
+    setSortOption(filterValue);
+    setTablesDisplay(
+      filterTables.filter((table) => {
+        if (filterValue === "empty") return table.status === "available";
+        if (filterValue === "serving") return table.status === "serving";
+        if (filterValue === "reserved") return table.status === "reserved";
+        return filterTables;
+      })
+    );
   };
+
   // clear select option
   const handleClear = () => {
     setSortOption("");
   };
+
+  // breadcrumb items
   const breadcrumbItems = [
     {
       label:
@@ -68,6 +124,15 @@ const TablePage = (props: Props) => {
       icon: TableCellsSplit,
     },
   ];
+
+  // create modal
+  const handleOpenCreateModal = () => {
+    setOpenCreateMenuModal(true);
+  };
+  const handleCloseCreateModal = () => {
+    setOpenCreateMenuModal(false);
+  };
+
   return (
     <BaseLayout>
       <div className="h-full w-full px-6 py-2 gap-6 flex flex-col">
@@ -95,16 +160,26 @@ const TablePage = (props: Props) => {
             </div>
             {/* list location */}
             <div className="w-full h-auto">
-              {/* <ListCategory language={language} /> */}
+              <ListLocation
+                language={language}
+                accessToken={user}
+                owner_id={userId}
+                restaurant_id={restaurantId}
+              />
             </div>
             {/* create category */}
             <div className="h-[8%] w-full flex items-center justify-center">
-              <CreateLocation language={language} />
+              <CreateLocation
+                language={language}
+                accessToken={user}
+                owner_id={userId}
+                restaurant_id={restaurantId}
+              />
             </div>
           </div>
 
           {/* table manage */}
-          <div className="w-[100%] h-full md:w-[80%] flex flex-col gap-1">
+          <div className="w-[100%] h-full md:w-[80%] flex flex-col gap-2">
             <div className="h-[6%] w-full flex pr-6 items-center justify-between pl-3">
               <span className="text-lg font-bold uppercase text-slate-700">
                 {language === "en"
@@ -128,6 +203,7 @@ const TablePage = (props: Props) => {
                       variant="outlined"
                       endIcon={<PlusCircleIcon size={22} />}
                       className="w-full md:w-auto xl:w-[70%] text-slate-700 hover:border-slate-600"
+                      onClick={handleOpenCreateModal}
                     >
                       <span className="text-sm md:text-base font-medium capitalize text-slate-700">
                         {language === "en"
@@ -193,7 +269,7 @@ const TablePage = (props: Props) => {
                         </MenuItem>
 
                         <MenuItem
-                          value="served"
+                          value="serving"
                           className="flex items-center gap-2"
                         >
                           <div className="flex items-center gap-2">
@@ -244,10 +320,28 @@ const TablePage = (props: Props) => {
             </div>
 
             {/* menu items */}
-            <div className="w-full h-[84%] bg-slate-300 grid gap-3 grid-cols-2 grid-rows-3 md:grid-cols-3 md:grid-rows-2 px-4"></div>
+            <div className="w-full h-[86%] grid items-center justify-center gap-5 grid-cols-2 grid-rows-3 md:grid-cols-3 md:grid-rows-2 pl-5 py-2">
+              {filterTables.map((table) => (
+                <TableItem
+                  key={table.id}
+                  language={language}
+                  table_id={table.id}
+                  table_name={table.name}
+                  table_status={table.status}
+                  table_location={table.location_name}
+                  all_locations={allLocations}
+                />
+              ))}
+            </div>
+
             {/* pagination */}
-            <div className="h-[8%] w-full px-3 flex items-center justify-between">
-              <span className="text-base font-semibold text-slate-700"></span>
+            <div className="h-[8%] w-full px-3 flex items-center justify-between border-t-[1px] border-slate-200">
+              <span className="text-base font-semibold text-slate-700">
+                {language === "en"
+                  ? translations.en.total_count_table
+                  : translations.vi.total_count_table}
+                {filterTables.length}
+              </span>
 
               <Pagination
                 count={10}
@@ -258,6 +352,15 @@ const TablePage = (props: Props) => {
             </div>
           </div>
         </div>
+        <CreateTable
+          language={language}
+          isOpen={openCreateMenuModal}
+          handleClose={handleCloseCreateModal}
+          accessToken={user}
+          owner_id={userId}
+          restaurant_id={restaurantId}
+          all_locations={allLocations}
+        />
       </div>
     </BaseLayout>
   );

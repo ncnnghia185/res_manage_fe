@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 interface authStateTypes {
   isLoggedIn: boolean;
-  userId: number | null;
+  userId: number ;
   user: string;
 }
 
 const initialState: authStateTypes = {
   isLoggedIn: false,
-  userId: null,
+  userId: 0,
   user: "",
 };
 
@@ -24,7 +24,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = "";
-      state.userId = null
+      state.userId = 0
       Cookies.remove("isLoggedIn");
     },
     setUserId: (state, action: PayloadAction<any>) => {

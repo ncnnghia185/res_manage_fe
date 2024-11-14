@@ -7,44 +7,59 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { translations } from "@/constants/language/translation";
 import { tableServices } from "@/services";
 import { useAppDispatch } from "@/redux/store";
-import { addCategory } from "@/redux/menuState/categorySlice";
+import { addLocation } from "@/redux/tableState/locationSlice";
+import { CreateLocationResponse } from "@/services/apiResponse";
 type Props = {
   language: string;
+  accessToken: string;
+  owner_id: number;
+  restaurant_id: number;
 };
 
-const CreateLocation: React.FC<Props> = ({ language }) => {
-  const [categoryName, setCategoryName] = useState("");
+const CreateLocation: React.FC<Props> = ({
+  language,
+  accessToken,
+  owner_id,
+  restaurant_id,
+}) => {
+  const [locationName, setLocationName] = useState("");
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   // handle create category
   const handleCreateCategory = async () => {
     setLoading(true);
-    // try {
-    //   const response = await tableServices.createLocation();
-    //   if (response?.success === true) {
-    //     toast.success(
-    //       language === "en"
-    //         ? translations.en.success_add_new_location
-    //         : translations.vi.success_add_new_location
-    //     );
-    //     setCategoryName("");
-    //     // dispatch(addCategory(response.data));
-    //   } else {
-    //     toast.error(
-    //       language === "en"
-    //         ? translations.en.error_add_new_location
-    //         : translations.vi.error_add_new_location
-    //     );
-    //   }
-    // } catch (error) {
-    //   toast.error(
-    //     language === "en"
-    //       ? translations.en.error_add_new_location
-    //       : translations.vi.error_add_new_location
-    //   );
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      const data = {
+        name: locationName,
+        owner_id: owner_id,
+        restaurant_id: restaurant_id,
+      };
+      const response: CreateLocationResponse =
+        await tableServices.createLocation(data, accessToken);
+      if (response.success === true) {
+        toast.success(
+          language === "en"
+            ? translations.en.success_add_new_location
+            : translations.vi.success_add_new_location
+        );
+        setLocationName("");
+        dispatch(addLocation(response.data));
+      } else {
+        toast.error(
+          language === "en"
+            ? translations.en.error_add_new_location
+            : translations.vi.error_add_new_location
+        );
+      }
+    } catch (error) {
+      toast.error(
+        language === "en"
+          ? translations.en.error_add_new_location
+          : translations.vi.error_add_new_location
+      );
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="w-full h-full flex items-center px-2">
@@ -61,8 +76,8 @@ const CreateLocation: React.FC<Props> = ({ language }) => {
               ? translations.en.create_location_placeholder
               : translations.vi.create_location_placeholder
           }
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
+          value={locationName}
+          onChange={(e) => setLocationName(e.target.value)}
           variant="standard"
         />
       </div>
@@ -73,7 +88,7 @@ const CreateLocation: React.FC<Props> = ({ language }) => {
         ) : (
           <PlusCircle
             className="cursor-pointer text-slate-900"
-            // onClick={handleCreateCategory}
+            onClick={handleCreateCategory}
           />
         )}
       </div>
