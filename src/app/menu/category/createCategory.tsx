@@ -7,12 +7,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { translations } from "@/constants/language/translation";
 import { menuServices } from "@/services";
 import { useAppDispatch } from "@/redux/store";
-import { addCategory } from "@/redux/menuState/categorySlice";
+import { CreateCategoryResponse } from "@/services/apiResponse";
+import {
+  addCategories,
+  fetchAllCategories,
+} from "@/redux/menuState/categorySlice";
 type Props = {
   language: string;
+  accessToken: string;
+  owner_id: number;
+  restaurant_id: number;
 };
 
-const CreateCategory: React.FC<Props> = ({ language }) => {
+const CreateCategory: React.FC<Props> = ({
+  language,
+  accessToken,
+  owner_id,
+  restaurant_id,
+}) => {
   const [categoryName, setCategoryName] = useState("");
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
@@ -20,17 +32,23 @@ const CreateCategory: React.FC<Props> = ({ language }) => {
   const handleCreateCategory = async () => {
     setLoading(true);
     try {
-      const response = await menuServices.createCategory({
-        name: categoryName,
-      });
-      if (response?.success === true) {
+      const response: CreateCategoryResponse =
+        await menuServices.createCategory(
+          {
+            name: categoryName,
+            owner_id: owner_id,
+            restaurant_id: restaurant_id,
+          },
+          accessToken
+        );
+      if (response.success === true) {
         toast.success(
           language === "en"
             ? translations.en.success_add_new_category
             : translations.vi.success_add_new_category
         );
         setCategoryName("");
-        dispatch(addCategory(response.data));
+        dispatch(addCategories(response.data));
       } else {
         toast.error(
           language === "en"

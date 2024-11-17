@@ -5,8 +5,8 @@ import { checkImageFileValid } from "@/utils/utils";
 // CATEGORY NEW DATA TYPES
 interface categoryDataType {
   name: string;
-  image?: File;
-  description?: string;
+  owner_id:number,
+  restaurant_id:number
 }
 
 // MENU NEW DATA TYPES
@@ -16,17 +16,26 @@ interface menuDataType {
 // CATEGORIES APIS
 // create new category
 export const createCategory = async (
-  data: categoryDataType
+  data: categoryDataType, accessToken:string
 ) => {
   const response = await axios.post(
     `${BASE_URL}/categories/add-category`,
-    data
+    data,{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
   );
   return response.data;
 };
 // get all categories
-export const getAllCategories = async () => {
-  const response = await axios.get(`${BASE_URL}/categories/all-categories`);
+export const getAllCategories = async (accessToken:string,owner_id?:number, restaurant_id?:number) => {
+  const response = await axios.get(`${BASE_URL}/categories/all-categories?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data;
 };
 
@@ -35,6 +44,23 @@ export const getCategoryDetail = async (id: any) => {
   const response = await axios.get(`${BASE_URL}/categories/infor/${id}`);
   return response.data;
 };
+export const updateCategoryName = async (owner_id: number,
+  restaurant_id: number,
+  accessToken: string,
+  data: any,
+  category_id?: number) =>{
+    const response = await axios.put(
+      `${BASE_URL}/categories/update/${category_id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  }
 
 // MENU APIS
 // create new menu

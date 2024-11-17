@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { translations } from "@/constants/language/translation";
 
 // check extension of file image
@@ -40,15 +41,44 @@ type TableStatusStyle = {
   color: string;
   text: string;
 };
-export const getTableStatusStyle = (status:string, language:string):TableStatusStyle =>{
-  switch(status.toLowerCase()){
+export const getTableStatusStyle = (
+  status: string,
+  language: string
+): TableStatusStyle => {
+  switch (status.toLowerCase()) {
     case "available":
-      return {color:"#2ecc71", text: language === "en" ? translations.en.empty_table : translations.vi.empty_table}
+      return {
+        color: "#2ecc71",
+        text:
+          language === "en"
+            ? translations.en.empty_table
+            : translations.vi.empty_table,
+      };
     case "serving":
-      return {color:"#3498db", text: language === "en" ? translations.en.serving_table : translations.vi.serving_table}
+      return {
+        color: "#3498db",
+        text:
+          language === "en"
+            ? translations.en.serving_table
+            : translations.vi.serving_table,
+      };
     case "reserved":
-      return {color:"#f1c40f", text: language === "en" ? translations.en.reserved_table : translations.vi.reserved_table}
+      return {
+        color: "#f1c40f",
+        text:
+          language === "en"
+            ? translations.en.reserved_table
+            : translations.vi.reserved_table,
+      };
     default:
       return { color: "gray", text: "Unknown" };
   }
-}
+};
+
+// generate Id
+export const generateId = (code: string) => {
+  const uuid = uuidv4();
+  const id = uuid.replace(/-/g, "").slice(0, 6);
+
+  return `${code}-${id.toUpperCase()}`;
+};

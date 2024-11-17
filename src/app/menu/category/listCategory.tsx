@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { menuServices } from "@/services";
 import {
   deselectAllCategories,
-  setCategories,
   selectAllCategories,
   selectCategories,
+  fetchAllCategories,
 } from "@/redux/menuState/categorySlice";
 import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { toast } from "react-toastify";
@@ -22,18 +22,28 @@ import {
 import { translations } from "@/constants/language/translation";
 import { Trash, Edit2, MoreVerticalIcon } from "lucide-react";
 import UpdateCategoryModal from "./updateCategoryModal";
+import { GetAllCategoriesResponse } from "@/services/apiResponse";
 type props = {
   language: string;
+  owner_id: number;
+  restaurant_id: number;
+  accessToken: string;
 };
-const ListCategory = ({ language }: props) => {
+const ListCategory = ({
+  language,
+  owner_id,
+  restaurant_id,
+  accessToken,
+}: props) => {
   const dispatch = useAppDispatch();
-  const { categories, selected_category } = useAppSelector(
+  const { all_categories, selected_category } = useAppSelector(
     (state) => state.category
   );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   // category state
   const [openUpdateCategoryModal, setOpenUpdateCategoryModal] = useState(false);
-  const [updateCategoryId, setUpdateCategoryId] = useState<number | null>();
+  const [updateCategoryId, setUpdateCategoryId] = useState<number>();
+  const [currentCategoryName, setCurrentCategoryName] = useState<string>();
   const [openDeleteCategoryModal, setOpenDeleteCategoryModal] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState<number | null>();
   const [menuCategory, setMenuCategory] = useState<number | null>(null);
@@ -42,16 +52,7 @@ const ListCategory = ({ language }: props) => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const response = await menuServices.getAllCategories();
-        if (response.success === true) {
-          dispatch(setCategories(response.data));
-        } else {
-          toast.error(
-            language === "en"
-              ? translations.en.error_list_categories
-              : translations.vi.error_list_categories
-          );
-        }
+        dispatch(fetchAllCategories({ accessToken, owner_id, restaurant_id }));
       } catch (error) {
         toast.error(
           language === "en"
@@ -66,7 +67,8 @@ const ListCategory = ({ language }: props) => {
 
   // check all children checked
   const isAllSelected =
-    categories.length > 0 && selected_category.length === categories.length;
+    all_categories.length > 0 &&
+    selected_category.length === all_categories.length;
 
   // handle check "all"
   const handleAllCheck = () => {
@@ -94,13 +96,14 @@ const ListCategory = ({ language }: props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     setMenuCategory(null);
-    setUpdateCategoryId(null);
+    setUpdateCategoryId(0);
     setOpenUpdateCategoryModal(false);
   };
   // handle open update category modal
-  const handleOpenUpdate = (categoryId: number) => {
+  const handleOpenUpdate = (categoryId: number, categoryName: string) => {
     setOpenUpdateCategoryModal(true);
     setUpdateCategoryId(categoryId);
+    setCurrentCategoryName(categoryName);
     setAnchorEl(null);
     setMenuCategory(null);
   };
@@ -115,7 +118,7 @@ const ListCategory = ({ language }: props) => {
   // handle close modal
   const handleCloseUpdateModal = () => {
     setOpenUpdateCategoryModal(false);
-    setUpdateCategoryId(null);
+    setUpdateCategoryId(0);
   };
   return (
     <div className="h-full w-full pl-2">
@@ -132,7 +135,7 @@ const ListCategory = ({ language }: props) => {
             </span>
           }
         />
-        {categories.map((category) => (
+        {all_categories.map((category) => (
           <div
             key={category.id}
             className="flex items-center group justify-between"
@@ -165,26 +168,37 @@ const ListCategory = ({ language }: props) => {
               transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
               <MenuItem
-                onClick={() => handleOpenUpdate(category.id)}
-                className="bg-blue-300"
+                onClick={() => handleOpenUpdate(category.id, category.name)}
+                sx={{
+                  ":hover": {
+                    backgroundColor: "#ecf0f1",
+                  },
+                }}
               >
                 <ListItemIcon>
-                  <Edit2 size={18} />
+                  <Edit2 size={18} color="#3498db" />
                 </ListItemIcon>
                 <ListItemText>
-                  <span>
+                  <span className="font-base font-semibold">
                     {language === "en"
                       ? translations.en.update
                       : translations.vi.update}
                   </span>
                 </ListItemText>
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
+              <MenuItem
+                onClick={handleMenuClose}
+                sx={{
+                  ":hover": {
+                    backgroundColor: "#ecf0f1",
+                  },
+                }}
+              >
                 <ListItemIcon>
-                  <Trash size={18} />
+                  <Trash size={18} color="#e74c3c" />
                 </ListItemIcon>
                 <ListItemText>
-                  <span>
+                  <span className="font-base font-semibold">
                     {language === "en"
                       ? translations.en.delete
                       : translations.vi.delete}
@@ -198,9 +212,13 @@ const ListCategory = ({ language }: props) => {
 
       <UpdateCategoryModal
         isOpen={openUpdateCategoryModal}
-        categoryId={updateCategoryId}
+        category_id={updateCategoryId}
+        category_name={currentCategoryName}
         handleClose={handleCloseUpdateModal}
         language={language}
+        owner_id={owner_id}
+        restaurant_id={restaurant_id}
+        accessToken={accessToken}
       />
     </div>
   );
