@@ -29,7 +29,6 @@ export interface CreateRestaurantResponse{
 }
 
 // location api response
-
 export interface LocationData{
 	id:number,
 	name:string,
@@ -45,7 +44,6 @@ export interface CreateLocationResponse{
   message: string,
   data: LocationData
 }
-
 export interface UpdateLocationResponse{
 	success:boolean,
 	message: string
@@ -89,3 +87,32 @@ export interface DeleteTableResponse{
 	success:true,
 	message:string
 }
+
+// category api response
+export interface CategoryData{
+	id:number,
+	name:string
+}
+export interface GetAllCategoriesResponse{
+	success:boolean,
+	message:string,
+	data: CategoryData[]
+}
+
+export interface CreateCategoryResponse{
+	success:boolean,
+	message:string,
+	data: CategoryData
+}
+
+export interface UpdateCategoryResponse{
+  success: boolean,
+  message: string
+}
+
+export interface DeleteCategoryResponse{
+	success: boolean,
+	message: string
+}
+
+// menu api response

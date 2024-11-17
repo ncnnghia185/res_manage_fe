@@ -20,7 +20,6 @@ import {
   selectAllLocations,
   selectLocations,
   deselectAllLocations,
-  addLocation,
   fetchAllLocations,
 } from "@/redux/tableState/locationSlice";
 import UpdateLocationModal from "./UpdateLocationModal";

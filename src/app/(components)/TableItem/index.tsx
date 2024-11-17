@@ -9,9 +9,9 @@ import {
 import { Edit2, MoreVerticalIcon, Trash } from "lucide-react";
 import React, { useState } from "react";
 import { SiAirtable } from "react-icons/si";
+import { FaCircle } from "react-icons/fa";
 import { translations } from "@/constants/language/translation";
 import { getTableStatusStyle } from "@/utils/utils";
-import { FaCircle } from "react-icons/fa";
 import DeleteTable from "@/app/table/components/DeleteModal";
 import UpdateTable from "@/app/table/components/UpdateModal";
 import { LocationData } from "@/services/apiResponse";

@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-photo-view/dist/react-photo-view.css";
 import { Provider } from "react-redux";
 import { store, persistor } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
