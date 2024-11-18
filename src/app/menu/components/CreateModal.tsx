@@ -10,13 +10,14 @@ import {
   Tabs,
   TextField,
 } from "@mui/material";
-import { Image, InspectionPanelIcon, Trash2, Upload, X } from "lucide-react";
+import { Image, Trash2, Upload, X } from "lucide-react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import * as Yup from "yup";
 // file import
 import { CategoryData } from "@/services/apiResponse";
 import { translations } from "@/constants/language/translation";
 import { generateId } from "@/utils/utils";
+import { Form, Formik } from "formik";
 
 type Props = {
   isOpen: boolean;
@@ -169,141 +170,15 @@ const CreateModal = ({
         <div className="w-full h-72 max-h-96 mt-1">
           {/* general info tab content */}
           {activeTab === "1" && (
-            <div className="h-full w-full flex flex-col lg:flex-row px-5 sm:pt-3 lg:pt-3 items-center lg:items-start justify-center gap-5">
-              {/* upload image */}
-              <div className="h-40 w-[40%] sm:h-48 sm:w-20 md:h-60 md:w-24 lg:h-full lg:w-[40%] flex flex-col gap-2 items-center justify-center">
-                <div className="h-[85%] w-full flex items-center justify-center">
-                  <PhotoProvider>
-                    {itemImage ? (
-                      <div className="relative flex">
-                        <PhotoView src={itemImage}>
-                          <img
-                            src={itemImage}
-                            alt="Uploaded Preview"
-                            style={{
-                              width: "200px",
-                              height: "200px",
-                              objectFit: "cover",
-                              borderRadius: "8px",
-                              border: "1px solid #ddd",
-                              cursor: "pointer",
-                            }}
-                          />
-                        </PhotoView>
-                        <IconButton
-                          onClick={handleRemoveImage}
-                          sx={{
-                            position: "absolute",
-                            top: "8px",
-                            right: "8px",
-                            backgroundColor: "#dfe6e9",
-                            "&:hover": {
-                              backgroundColor: "#bdc3c7",
-                            },
-                          }}
-                        >
-                          <Trash2 size={20} color="#FF5A5F" />
-                        </IconButton>
-                      </div>
-                    ) : (
-                      <Box
-                        sx={{
-                          width: { xs: "100px", sm: "150px", md: "200px" },
-                          height: { xs: "100px", sm: "150px", md: "200px" },
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          border: "1px solid #bdc3c7",
-                          borderRadius: "8px",
-                          color: "#636e72",
-                          gap: "5px",
-                        }}
-                      >
-                        <Image size={32} />
-                        <span className="text-lg">
-                          {language === "en"
-                            ? translations.en.no_item_image
-                            : translations.vi.no_item_image}
-                        </span>
-                      </Box>
-                    )}
-                  </PhotoProvider>
-                </div>
-                {/* button upload */}
-                <div className="h-[15%]  w-full flex items-center justify-center">
-                  <Button
-                    variant="text"
-                    component="label"
-                    sx={{
-                      width: "60%",
-                      ":hover": {
-                        backgroundColor: "#bdc3c7",
-                      },
-                    }}
-                    startIcon={<Upload size={16} color="#121212" />}
-                  >
-                    <span className="text-sm text-[#121212] pt-1">
-                      {language === "en"
-                        ? translations.en.upload_iamge_menu
-                        : translations.vi.upload_iamge_menu}
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      hidden
-                      onChange={handleImageChange}
-                    />
-                  </Button>
-                </div>
-              </div>
-              {/* menu item info */}
-              <div className="h-full w-[60%] flex flex-col py-2 pt-3">
-                <div className="flex-1 h-full flex items-center pl-2 gap-5 border-b-[1px] border-gray-300">
-                  <span className="text-base text-[#121212] font-semibold">
-                    {language === "en"
-                      ? translations.en.menu_item_code
-                      : translations.vi.menu_item_code}
-                  </span>
-                  <TextField
-                    disabled
-                    variant="standard"
-                    value={itemCode}
-                    sx={{
-                      paddingTop: "5px",
-                      "& .MuiInput-underline:before": {
-                        display: "none",
-                      },
-                      "& .MuiInput-underline:after": {
-                        display: "none",
-                      },
-                    }}
-                  />
-                </div>
-                <div className="flex-1 h-full flex items-center pl-2 gap-5 border-b-[1px] border-gray-300">
-                  <span className="text-base text-[#121212] font-semibold">
-                    {language === "en"
-                      ? translations.en.menu_item_name
-                      : translations.vi.menu_item_name}
-                  </span>
-                  <TextField
-                    variant="standard"
-                    value={""}
-                    sx={{
-                      paddingTop: "5px",
-                      width: "60%",
-                    }}
-                    placeholder={
-                      language === "en"
-                        ? translations.en.placeholder_menu_item_name
-                        : translations.vi.placeholder_menu_item_name
-                    }
-                  />
-                </div>
-                <div className="flex-1 bg-white h-full">Hàng 3</div>
-                <div className="flex-1 bg-white h-full">Hàng 4</div>
-                <div className="flex-3 bg-white h-full">Hàng 5</div>
-              </div>
-            </div>
+            <Formik
+              initialValues={initialGeneralValues}
+              validationSchema={validateGeneralSchema}
+              onSubmit={() => {}}
+            >
+              {({ isSubmitting }) => (
+                <Form className="h-full w-full flex flex-col lg:flex-row px-5 sm:pt-3 lg:pt-3 items-center lg:items-start justify-center gap-5 bg-blue-400"></Form>
+              )}
+            </Formik>
           )}
           {/* ingredient info tab content */}
           {activeTab === "2" && (
