@@ -4,7 +4,10 @@ export interface AuthResponse{
 	accessToken: string,
 	userId: number
 }
-
+export interface ResgisterResponse{
+	success:boolean,
+	message:string
+}
 // restaurant api response
 interface RestaurantData{
 	id:number, 

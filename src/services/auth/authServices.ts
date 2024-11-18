@@ -9,9 +9,9 @@ interface loginDataType  {
 
 interface registerDataType{
 	email: string,
-	password: string,
-	username: string,
-	phone: string
+	fullname: string,
+	phone: string,
+	password: string
 }
 export const loginAccount = async (data:loginDataType) =>{
 	const response = await axios.post(`${BASE_URL}/owner/login-account`, data, {
