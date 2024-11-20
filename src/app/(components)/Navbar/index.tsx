@@ -12,6 +12,7 @@ import {
   Search,
   MenuIcon,
   Home,
+  MoveLeft,
 } from "lucide-react";
 import Tooltip from "@mui/material/Tooltip";
 import {
@@ -33,7 +34,7 @@ import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import {
   setIsDarkMode,
-  setIsSidebarCollapsed,
+  setIsSidebarSmallCollapsed,
   setLanguage,
 } from "@/redux/globalState/globalSlice";
 import { slotProps, menuSlotProps } from "@/constants/customUI/slotProps";
@@ -45,20 +46,28 @@ const Navbar = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   // global state
-  const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarCollapsed
+  const sidebarSmallCollapsed = useAppSelector(
+    (state) => state.global.sidebarSmallCollapsed
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const language = useAppSelector((state) => state.global.language);
   const selected_restaurant = useAppSelector(
     (state) => state.restaurant.selected_restaurant
   );
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const toggleSidebarSmall = () => {
+    dispatch(setIsSidebarSmallCollapsed(!sidebarSmallCollapsed));
+  };
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(
+    null
+  );
   const [openModalCreateRestaurant, setOpenModalCreateRestaurant] =
     useState(false);
-
+  const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClickSmallScreen = (event: React.MouseEvent<SVGSVGElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -67,7 +76,7 @@ const Navbar = () => {
 
   // toggle sidebar
   const toggleSidebarCollapse = () => {
-    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
+    dispatch(setIsSidebarSmallCollapsed(!sidebarSmallCollapsed));
   };
   // toggle dark mode
   const toggleDarkMode = () => {
@@ -76,6 +85,14 @@ const Navbar = () => {
   // change language
   const handleChangeLanguage = (event: SelectChangeEvent) => {
     dispatch(setLanguage(event.target.value));
+  };
+  // change language in small screen
+  const handleSmallScreenLanguageToggle = (language: string) => {
+    dispatch(setLanguage(language));
+  };
+  // handle show search in small screen
+  const handleSearchInSmallScreen = () => {
+    setShowSearchBar(!showSearchBar);
   };
   // handle open create restaurant modal
   const handleOpenCreateRestaurantModal = () => {
@@ -97,10 +114,33 @@ const Navbar = () => {
 
   const today = dayjs();
   return (
-    <div className="h-full w-full flex items-center justify-between gap-1 md:gap-2">
+    <div className="h-full w-full flex items-center justify-between gap-1 md:gap-2 px-2">
       {/* Infor */}
-      <div className="w-[30%] h-full flex items-center justify-between md:justify-center gap-1 md:gap-2 px-2 md:px-4">
-        <MenuIcon className="block md:hidden" size={24} />
+      <div className="w-1/2 md:w-[30%] h-full flex items-center justify-between md:justify-center gap-2 md:gap-2 px-2 md:px-4">
+        <Tooltip
+          title={
+            language === "en"
+              ? translations.en.show_small_sidebar
+              : translations.vi.show_small_sidebar
+          }
+        >
+          <MenuIcon
+            className="block md:hidden cursor-pointer text-slate-900"
+            size={24}
+            onClick={toggleSidebarCollapse}
+          />
+        </Tooltip>
+
+        <Image
+          src="/logo.svg"
+          alt="logo-small-screen"
+          width={34}
+          height={34}
+          className="flex md:hidden"
+          style={{
+            paddingLeft: "5px",
+          }}
+        />
         {/* Restaurant name */}
         <div className="w-[90%] h-full flex items-center justify-center">
           <span className="text-sm md:text-xl font-bold text-slate-700">
@@ -108,9 +148,199 @@ const Navbar = () => {
           </span>
         </div>
       </div>
+      {/* SMALL SCREEN */}
+      <div className="flex md:hidden w-1/2 h-full items-center justify-between px-8">
+        {/* Search icon */}
+        <Tooltip
+          title={
+            language === "en"
+              ? translations.en.search_icon
+              : translations.vi.search_icon
+          }
+        >
+          <Search
+            className="text-slate-900 cursor-pointer"
+            onClick={handleSearchInSmallScreen}
+          />
+        </Tooltip>
 
+        {/* Dark/Light Mode */}
+        {isDarkMode === true ? (
+          <Tooltip
+            title={
+              language === "en" ? translations.en.light : translations.vi.light
+            }
+          >
+            <Sun
+              className="text-slate-900 cursor-pointer"
+              onClick={toggleDarkMode}
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip
+            title={
+              language === "en" ? translations.en.dark : translations.vi.dark
+            }
+          >
+            <Moon
+              className="text-slate-900 cursor-pointer"
+              onClick={toggleDarkMode}
+            />
+          </Tooltip>
+        )}
+        {/* Notification */}
+        <Tooltip
+          title={
+            language === "en"
+              ? translations.en.notification_icon
+              : translations.vi.notification_icon
+          }
+        >
+          <Bell className="text-slate-900 cursor-pointer" />
+        </Tooltip>
+
+        {/* User info */}
+        <React.Fragment>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <Tooltip
+              title={
+                language === "en"
+                  ? translations.en.profile
+                  : translations.vi.profile
+              }
+            >
+              <User2
+                className="text-slate-900 cursor-pointer"
+                onClick={handleClickSmallScreen}
+              />
+            </Tooltip>
+          </Box>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            slotProps={menuSlotProps}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem onClick={handleOpenCreateRestaurantModal}>
+              <ListItemIcon>
+                <Home className="h-6 w-6" />
+              </ListItemIcon>
+              {language === "en"
+                ? translations.en.add_new_restaurant
+                : translations.vi.add_new_restaurant}
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <User2 className="h-6 w-6" />
+              </ListItemIcon>
+              {language === "en"
+                ? translations.en.profile
+                : translations.vi.profile}
+            </MenuItem>
+
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Settings className="h-6 w-6" />
+              </ListItemIcon>
+              {language === "en"
+                ? translations.en.setting
+                : translations.vi.setting}
+            </MenuItem>
+
+            <MenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <LogOut className="h-6 w-6" />
+              </ListItemIcon>
+              {language === "en"
+                ? translations.en.logout
+                : translations.vi.logout}
+            </MenuItem>
+          </Menu>
+        </React.Fragment>
+
+        {/* Change Language */}
+        {language === "en" ? (
+          <Tooltip
+            title={
+              language === "en"
+                ? translations.en.en_icon
+                : translations.vi.en_icon
+            }
+          >
+            <Image
+              src="/enrouded.svg"
+              alt="vietnam flag"
+              width={24}
+              height={24}
+              onClick={() => handleSmallScreenLanguageToggle("vi")}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip
+            title={
+              language === "en"
+                ? translations.en.vi_icon
+                : translations.vi.vi_icon
+            }
+          >
+            <Image
+              src="/vnrouded.svg"
+              alt="vietnam flag"
+              width={24}
+              height={24}
+              onClick={() => handleSmallScreenLanguageToggle("en")}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+          </Tooltip>
+        )}
+      </div>
+      {/* Search in small screen */}
+      <div
+        className={`${
+          showSearchBar ? "flex" : "hidden"
+        } md:hidden fixed top-0 left-0 w-full h-[10%] items-center pl-10 bg-gray-300 gap-10 z-50 transition-all duration-300`}
+      >
+        <Tooltip
+          title={
+            language === "en"
+              ? translations.en.back_search_icon
+              : translations.vi.back_search_icon
+          }
+        >
+          <MoveLeft
+            onClick={handleSearchInSmallScreen}
+            className="text-slate-900 cursor-pointer"
+          />
+        </Tooltip>
+        <div className="flex md:hidden relative items-center justify-center w-[70%] h-full">
+          <input
+            type="text"
+            className="h-[50%] w-[90%] bg-slate-200 px-4 text-base border border-slate-500 focus:outline-none focus:border-slate-600 rounded-lg text-slate-800"
+            placeholder={
+              language === "en"
+                ? translations.en.search
+                : translations.vi.search
+            }
+          />
+          <Search className="absolute top-7 right-9 cursor-pointer text-slate-800" />
+        </div>
+      </div>
       {/* Search */}
-      <div className="w-[35%] h-full relative flex items-center justify-center">
+      <div className="hidden md:flex w-[35%] h-full relative items-center justify-center">
         <input
           type="text"
           className="h-[50%] w-[90%] bg-slate-200 px-4 text-base border border-slate-500 focus:outline-none focus:border-slate-600 rounded-lg text-slate-800"
@@ -122,7 +352,7 @@ const Navbar = () => {
       </div>
 
       {/* Options */}
-      <div className="w-[35%] h-full flex items-center justify-between gap-2">
+      <div className=" hidden md:flex w-[35%] h-full items-center justify-between gap-2">
         <div className="h-full w-[35%] flex gap-2 items-center justify-center">
           <Calendar size={20} className="text-gray-800" />
           <span className="text-base font-semibold text-gray-800">

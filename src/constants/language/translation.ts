@@ -32,6 +32,8 @@ export const translations = {
     // navbar options translations
     collapse: "Collapse",
     extend: "Extend",
+    show_small_sidebar:"Show sidebar",
+    hide_small_sidebar:"Hide sidebar",
     dark: "Dark",
     light: "Light",
     profile: "Profile",
@@ -46,6 +48,11 @@ export const translations = {
     filter: "Filter",
     change_language: "Change",
     software: "Software",
+    search_icon:"Search",
+    back_search_icon:"Back",
+    notification_icon:"Notification",
+    en_icon:"EN",
+    vi_icon:"VI",
     // login and register translations
     back_to_home:"Back to home",
     username: "Email or phone number",
@@ -223,6 +230,8 @@ export const translations = {
     // navbar options translations
     collapse: "Thu gọn",
     extend: "Mở rộng",
+    show_small_sidebar:"Mở thanh bên",
+    hide_small_sidebar:"Ẩn thanh bên",
     dark: "Tối",
     light: "Sáng",
     profile: "Thông tin",
@@ -237,6 +246,11 @@ export const translations = {
     filter: "Bộ lọc",
     change_language: "Đổi",
     software: "Phần mềm",
+    search_icon:"Tìm kiếm",
+    back_search_icon:"Quay lại",
+    notification_icon:"Thông báo",
+    en_icon:"EN",
+    vi_icon:"VI",
     // login and register translations
     back_to_home:"Về trang chủ",
     username: "Email hoặc số điện thoại",
