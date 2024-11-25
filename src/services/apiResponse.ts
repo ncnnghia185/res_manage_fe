@@ -119,3 +119,30 @@ export interface DeleteCategoryResponse{
 }
 
 // menu api response
+export interface MenuItemData{
+	id:string,
+	name:string,
+	image:string,
+	price:string,
+	category_id:number
+} 
+export interface GetAllMenuItemResponse{
+	success:boolean,
+	message:string,
+	data: MenuItemData[]
+}
+
+export interface CreateMenuItemResponse{
+	success: boolean,
+  message: string,
+}
+
+export interface CreateMenuIngredientResponse{
+	success:boolean,
+	message:string
+}
+
+export interface DeleteMenuItemResponse{
+	success:boolean,
+	message:string
+}

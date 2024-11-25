@@ -116,7 +116,7 @@ const Navbar = () => {
   return (
     <div className="h-full w-full flex items-center justify-between gap-1 md:gap-2 px-2">
       {/* Infor */}
-      <div className="w-1/2 md:w-[30%] h-full flex items-center justify-between md:justify-center gap-2 md:gap-2 px-2 md:px-4">
+      <div className="w-1/2 md:w-[30%] h-full flex items-center justify-between md:justify-center gap-4 md:gap-2 px-2 md:px-4">
         <Tooltip
           title={
             language === "en"
@@ -142,8 +142,8 @@ const Navbar = () => {
           }}
         />
         {/* Restaurant name */}
-        <div className="w-[90%] h-full flex items-center justify-center">
-          <span className="text-sm md:text-xl font-bold text-slate-700">
+        <div className="w-[90%] h-full flex items-center justify-start md:justify-center">
+          <span className="text-xl md:text-xl font-bold text-slate-700">
             {selected_restaurant !== null ? selected_restaurant.name : ""}
           </span>
         </div>

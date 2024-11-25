@@ -236,10 +236,10 @@ const CreateRestaurant = ({ language, isOpen, handleClose }: Props) => {
               {/* Footer */}
               <div className="w-full h-12 flex items-center justify-end gap-8 pr-10 pt-3">
                 <button
-                  className="w-28 h-10 bg-green-500 border rounded-md hover:bg-green-600"
+                  className="w-28 h-10 bg-blue-500 border rounded-md hover:bg-blue-600"
                   type="submit"
                 >
-                  <span className="text-base font-bold text-slate-900">
+                  <span className="text-base font-bold text-gray-100">
                     {language === "en"
                       ? translations.en.save_update
                       : translations.vi.save_update}
@@ -249,7 +249,7 @@ const CreateRestaurant = ({ language, isOpen, handleClose }: Props) => {
                   className="w-28 h-10 bg-red-500 border rounded-md hover:bg-red-600"
                   onClick={handleClose}
                 >
-                  <span className="text-base font-bold text-slate-900">
+                  <span className="text-base font-bold text-gray-100">
                     {language === "en"
                       ? translations.en.cancel_update
                       : translations.vi.cancel_update}

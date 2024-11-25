@@ -11,7 +11,28 @@ interface categoryDataType {
 
 // MENU NEW DATA TYPES
 interface menuDataType {
-  image: File;
+  id:string,
+  name:string,
+  price:string,
+  description?:string,
+  image: File | null;
+  category_id:number,
+  original_price?:string,
+  owner_id:number,
+  restaurant_id:number
+}
+
+interface oneIngredientDataType{
+  ingredient_name?:string,
+  quantity?:number,
+  ingredient_unit?:string,
+  cost_per_unit?:number
+}
+interface menuIngredientDataType{
+  menu_item_id:string,
+  owner_id:number,
+  restaurant_id:number,
+  ingredients?: oneIngredientDataType[]
 }
 // CATEGORIES APIS
 // create new category
@@ -64,17 +85,26 @@ export const updateCategoryName = async (owner_id: number,
 
 // MENU APIS
 // create new menu
-export const createMenu = async (data: menuDataType, errorMessage: string) => {
+export const createMenuItem = async (data: menuDataType, errorMessage: string, accessToken:string) => {
   if (data.image && !checkImageFileValid(data.image)) {
     throw new Error(errorMessage);
   }
-  const response = await axios.post(`${BASE_URL}/menu/add-item`, data);
+  const response = await axios.post(`${BASE_URL}/menu/add-item`, data,{
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data;
 };
 
 // get all menu
-export const getAllMenu = async () => {
-  const response = await axios.get(`${BASE_URL}/menu/all-item`);
+export const getAllMenu = async (accessToken:string, owner_id:number, restaurant_id:number) => {
+  const response = await axios.get(`${BASE_URL}/menu/all-item?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data;
 };
 
@@ -91,7 +121,23 @@ export const updateMenuItem = async (id: any, data: any) => {
 };
 
 // delete menu item
-export const deleteMenuItem = async (id: any) => {
-  const response = await axios.delete(`${BASE_URL}/menu/item/${id}`);
+export const deleteMenuItem = async (id: string, owner_id:number, restaurant_id:number,accessToken:string) => {
+  const response = await axios.delete(`${BASE_URL}/menu/delete/${id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return response.data;
 };
+
+// MENU INGREDIENTS APIS
+
+export const createMenuItemIngredient = async (data: menuIngredientDataType, accessToken:string) =>{
+  const response = await axios.post(`${BASE_URL}/menu-ingredient/add-ingredient`,data,{
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization": `Bearer ${accessToken}`
+    }
+  })
+  return response.data
+}

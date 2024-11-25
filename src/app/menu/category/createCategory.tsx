@@ -32,6 +32,15 @@ const CreateCategory: React.FC<Props> = ({
   const handleCreateCategory = async () => {
     setLoading(true);
     try {
+      if (restaurant_id === 0) {
+        toast.error(
+          language === "en"
+            ? translations.en.please_select_restaurant
+            : translations.vi.please_select_restaurant
+        );
+        setLoading(false);
+        return;
+      }
       const response: CreateCategoryResponse =
         await menuServices.createCategory(
           {

@@ -24,6 +24,7 @@ import { categoryReducer } from "@/redux/menuState/categorySlice";
 import { restaurantReducer } from "@/redux/restaurantState/restaurantSlice";
 import { locationReducer } from "@/redux/tableState/locationSlice";
 import { tableReducer } from "@/redux/tableState/tableSlice";
+import { menuItemReducer } from "./menuState/menuSlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   restaurant: restaurantReducer,
   location: locationReducer,
   table: tableReducer,
+  menu_item: menuItemReducer
 });
 
 const persistConfig = {
