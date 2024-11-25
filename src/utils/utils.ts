@@ -9,21 +9,26 @@ export const checkImageFileValid = (file: File): boolean => {
 
 // sort menu items
 type SortByPrimer<T> = (value: T[keyof T]) => any;
-export const sortMenuItems = <T>(
-  field: keyof T,
-  reverse: boolean,
-  primer?: SortByPrimer<T>
-): ((a: T, b: T) => number) => {
-  const key = primer ? (x: T) => primer(x[field]) : (x: T) => x[field];
+export const sortMenuItems = (field: string, reverse: boolean, primer?: (value: any) => any) => {
+  return (a: any, b: any) => {
+    let comparison = 0;
+    if (a[field] < b[field]) {
+      comparison = -1;
+    } else if (a[field] > b[field]) {
+      comparison = 1;
+    }
 
-  const order = reverse ? -1 : 1;
+    // Nếu là sắp xếp theo giá, chuyển đổi thành số
+    if (field === "price") {
+      const priceA = parseFloat(a[field]);
+      const priceB = parseFloat(b[field]);
+      comparison = priceA < priceB ? -1 : priceA > priceB ? 1 : 0;
+    }
 
-  return (a: T, b: T): number => {
-    const aValue = key(a);
-    const bValue = key(b);
-    return order * (aValue > bValue ? 1 : aValue < bValue ? -1 : 0);
+    return reverse ? comparison * -1 : comparison;
   };
 };
+
 
 // pagination
 export const paginationData = <T>(

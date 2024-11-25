@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconBreadcrumbs from "@/app/(components)/Breadcrumb";
 import {
   Layout,
@@ -11,6 +11,7 @@ import {
   ArrowDown10,
   ArrowUpAZ,
   ArrowDownZA,
+  PackageOpen,
 } from "lucide-react";
 import BaseLayout from "@/app/(components)/BaseLayout";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
@@ -24,15 +25,23 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  IconButton,
 } from "@mui/material";
+import { toast } from "react-toastify";
 import { CiFilter } from "react-icons/ci";
 import ListCategory from "./category/listCategory";
 import CardItem from "@/app/(components)/MenuItem";
 import CreateModal from "./components/CreateModal";
+import { fetchAllMenuItems } from "@/redux/menuState/menuSlice";
+import ItemMenu from "@/app/(components)/MenuItem";
+import { MdClear } from "react-icons/md";
+import { MenuItemData } from "@/services/apiResponse";
+import { sortMenuItems } from "@/utils/utils";
 
 type Props = {};
 
 const MenuPage = (props: Props) => {
+  const dispatch = useAppDispatch();
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const language = useAppSelector((state) => state.global.language);
   const owner_id = useAppSelector((state) => state.auth.userId);
@@ -42,13 +51,37 @@ const MenuPage = (props: Props) => {
   const all_categories = useAppSelector(
     (state) => state.category.all_categories
   );
+  const all_menu_items = useAppSelector(
+    (state) => state.menu_item.all_menu_items
+  );
   const accessToken = useAppSelector((state) => state.auth.user);
+  const selectedCategory = useAppSelector(
+    (state) => state.category.selected_category
+  );
+
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        dispatch(fetchAllMenuItems({ accessToken, owner_id, restaurant_id }));
+      } catch (error) {
+        toast.error(
+          language === "en"
+            ? translations.en.error_fecth_all_items
+            : translations.vi.error_fecth_all_items
+        );
+      }
+    };
+    fetchMenuItems();
+  }, []);
   // menu item state
   const [openCreateMenuModal, setOpenCreateMenuModal] =
     useState<boolean>(false);
   const [openDetailMenuDrawer, setOpenDetailMenuDrawer] = useState(false);
   const [sortOption, setSortOption] = useState<string>("");
-
+  const [filterMenuItems, setFilterMenuItems] =
+    useState<MenuItemData[]>(all_menu_items);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 6;
   // bread crumb
   const breadcrumbItems = [
     {
@@ -69,6 +102,10 @@ const MenuPage = (props: Props) => {
   const handleChange = (event: SelectChangeEvent) => {
     setSortOption(event.target.value);
   };
+  // handle clear sort
+  const handleClearSort = () => {
+    setSortOption("");
+  };
   // handle open create menu
   const handleOpenCreateMenuModal = () => {
     setOpenCreateMenuModal(true);
@@ -76,23 +113,73 @@ const MenuPage = (props: Props) => {
   const handleCloseCreateMenuModal = () => {
     setOpenCreateMenuModal(false);
   };
+  // filter and sort all items
+  const filterAndSortItems = (
+    all_items: MenuItemData[],
+    selectedCategories: number[],
+    selectedSort: string
+  ) => {
+    let filterItems = all_items;
+
+    if (selectedCategories.length > 0) {
+      filterItems = filterItems.filter((product) =>
+        selectedCategories.includes(product.category_id)
+      );
+    }
+
+    if (selectedSort) {
+      const reverse =
+        selectedSort === "price-desc" || selectedSort === "name-desc";
+      const primer = selectedSort.includes("name")
+        ? (value: string | number) =>
+            typeof value === "string" ? value.toLowerCase() : value
+        : undefined;
+      const field = selectedSort.includes("price") ? "price" : "name";
+      return [...filterItems].sort(sortMenuItems(field, reverse, primer));
+    }
+    return filterItems;
+  };
+
+  useEffect(() => {
+    const filteredItems = filterAndSortItems(
+      all_menu_items,
+      selectedCategory,
+      sortOption
+    );
+    setFilterMenuItems(filteredItems);
+  }, [all_menu_items, selectedCategory, sortOption]);
+
+  // paginations
+  const totalPages = Math.ceil(filterMenuItems.length / itemsPerPage);
+  const currentItems = filterMenuItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  // handle change page
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setCurrentPage(value);
+  };
   return (
     <BaseLayout>
-      <div className="h-full w-full px-6 py-2 gap-6 flex flex-col">
+      <div className="h-[88%] md:h-[90%]  w-full px-3 md:px-6 py-2 gap-2 md:gap-6 flex flex-col">
         {/* breadcrumb */}
-        <div className="h-[6%] w-full flex items-center px-3 z-10">
+        <div className="h-[3%] md:h-[6%] w-full flex items-center px-3 z-10">
           <IconBreadcrumbs items={breadcrumbItems} darkTheme={isDarkMode} />
         </div>
-
+        <div className="flex md:hidden w-full h-[3%] items-center justify-start px-3">
+          <span className="text-lg font-bold uppercase text-slate-700">
+            {language === "en"
+              ? translations.en.menu_manage
+              : translations.vi.menu_manage}
+          </span>
+        </div>
         {/* main content */}
         <div className="h-[94%] w-full flex gap-2 sm:justify-center">
-          {/* category select */}
-          <div className="block md:hidden">
-            <Menu size={24} className="text-slate-700 cursor-pointer" />
-          </div>
-
           {/* category manage */}
-          <div className="hidden md:flex flex-col h-full w-[18%] gap-2 border-r-[1px] border-slate-300">
+          <div className="flex flex-col h-full w-[30%] md:w-[18%] gap-2 border-r-[1px] border-slate-300">
             <div className="h-[8%] w-full flex flex-col items-start justify-center pl-4 gap-2">
               <span className="text-lg font-bold uppercase text-slate-700">
                 {language === "en"
@@ -122,46 +209,38 @@ const MenuPage = (props: Props) => {
           </div>
 
           {/* menu manage */}
-          <div className="w-[100%] h-full md:w-[80%] flex flex-col gap-1">
-            <div className="h-[6%] w-full flex pr-6 items-center justify-between pl-3">
-              <span className="text-lg font-bold uppercase text-slate-700">
+          <div className="w-[70%] h-full md:w-[80%] flex flex-col gap-1">
+            <div className="h-[6%] w-full flex pr-2 md:pr-6 items-center justify-end md:justify-between pl-3">
+              <span className="hidden md:flex text-lg font-bold uppercase text-slate-700">
                 {language === "en"
                   ? translations.en.menu_manage
                   : translations.vi.menu_manage}
               </span>
 
-              {/* create */}
-              <div className="h-full w-[40%] flex items-center justify-center md:gap-5">
-                <div className="h-full w-[70%] md:w-[60%]  flex items-center justify-end md:justify-start md:pl-2">
-                  {/* icons with small screen */}
-                  <div className="block md:hidden items-center justify-center">
-                    <PlusCircleIcon
-                      className=" cursor-pointer text-slate-900"
-                      size={26}
-                    />
-                  </div>
-                  {/* normal screen */}
-                  <div className="hidden md:flex w-full items-center justify-end md:justify-start xl:justify-end">
+              <div className="h-full w-full md:w-[40%] flex items-center justify-center md:gap-5">
+                {/* create */}
+                <div className="h-full w-[50%] md:w-[60%] flex items-center justify-end md:justify-start md:pl-2">
+                  <div className="flex w-full items-center justify-end md:justify-start xl:justify-end">
                     <Button
                       variant="outlined"
                       endIcon={
                         <PlusCircleIcon
                           size={22}
-                          color={isDarkMode ? "#ecf0f1" : "#34495e"}
+                          color={isDarkMode ? "#ecf0f1" : "#121212"}
                         />
                       }
                       sx={{
                         backgroundColor: isDarkMode ? "none" : "#ecf0f1",
-                        width: "80%",
-                        borderColor: "#9ca3af",
+                        width: { sm: "60%", md: "80%" },
+                        borderWidth: "1.5px",
+                        borderColor: "#636e72",
                         ":hover": {
-                          backgroundColor: "#99f6e4",
+                          backgroundColor: "#dfe6e9",
                         },
                       }}
-                      className="w-full md:w-auto xl:w-[70%] text-slate-700 hover:border-slate-600"
                       onClick={handleOpenCreateMenuModal}
                     >
-                      <span className="text-sm md:text-base font-medium capitalize text-slate-900">
+                      <span className="text-sm md:text-base font-semibold md:font-medium capitalize text-slate-900">
                         {language === "en"
                           ? translations.en.add_new
                           : translations.vi.add_new}
@@ -171,12 +250,8 @@ const MenuPage = (props: Props) => {
                 </div>
 
                 {/* filter */}
-                <div className="h-full w-[50%] flex items-center justify-center md:justify-start md:pl-2">
-                  {/* icons with small screen */}
-                  <div className="block md:hidden items-center justify-center">
-                    <FilterIcon className=" cursor-pointer" size={26} />
-                  </div>
-                  <div className="hidden md:flex w-full items-center justify-center">
+                <div className="h-full w-[50%] flex items-center justify-end md:justify-start md:pl-2">
+                  <div className="flex w-full items-center justify-center">
                     <FormControl
                       variant="outlined"
                       size="small"
@@ -196,7 +271,9 @@ const MenuPage = (props: Props) => {
                         value={sortOption}
                         onChange={handleChange}
                         label="Bộ lọc"
-                        IconComponent={CiFilter}
+                        IconComponent={
+                          sortOption === "" ? CiFilter : () => <div />
+                        }
                         sx={{
                           width: "100%",
                           display: "flex",
@@ -210,7 +287,7 @@ const MenuPage = (props: Props) => {
                           },
                         }}
                       >
-                        <MenuItem value="lowToHigh">
+                        <MenuItem value="price-asc">
                           <div className="flex items-center gap-1">
                             <ArrowUp10 size={18} />
                             <span>
@@ -221,7 +298,7 @@ const MenuPage = (props: Props) => {
                           </div>
                         </MenuItem>
                         <MenuItem
-                          value="highToLow"
+                          value="price-desc"
                           className="flex items-center gap-2"
                         >
                           <div className="flex items-center gap-1">
@@ -234,7 +311,7 @@ const MenuPage = (props: Props) => {
                           </div>
                         </MenuItem>
                         <MenuItem
-                          value="aToZ"
+                          value="name-asc"
                           className="flex items-center gap-2"
                         >
                           <div className="flex items-center gap-1">
@@ -247,7 +324,7 @@ const MenuPage = (props: Props) => {
                           </div>
                         </MenuItem>
                         <MenuItem
-                          value="zToA"
+                          value="name-desc"
                           className="flex items-center gap-2"
                         >
                           <div className="flex items-center gap-1">
@@ -260,6 +337,27 @@ const MenuPage = (props: Props) => {
                           </div>
                         </MenuItem>
                       </Select>
+                      {sortOption && (
+                        <IconButton
+                          onClick={handleClearSort}
+                          sx={{
+                            position: "absolute",
+                            right: 5,
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            ":hover": {
+                              backgroundColor: "transparent",
+                            },
+                          }}
+                        >
+                          {/* Icon xóa */}
+                          <MdClear
+                            style={{
+                              fontSize: "15px",
+                            }}
+                          />
+                        </IconButton>
+                      )}
                     </FormControl>
                   </div>
                 </div>
@@ -267,29 +365,54 @@ const MenuPage = (props: Props) => {
             </div>
 
             {/* menu items */}
-            <div className="w-full h-[86%] grid items-center justify-center gap-5 grid-cols-2 grid-rows-3 md:grid-cols-3 md:grid-rows-2 pl-5 py-2">
-              <div className="bg-white p-4 h-full">Product 1</div>
-              <div className="bg-white p-4">Product 2</div>
-              <div className="bg-white p-4">Product 3</div>
-              <div className="bg-white p-4 h-full">Product 4</div>
-              <div className="bg-white p-4">Product 5</div>
-              <div className="bg-white p-4">Product 6</div>
-            </div>
+            {currentItems.length === 0 ? (
+              <div className="w-full h-[86%] flex flex-col items-center justify-center border-2 rounded-lg border-gray-300">
+                <PackageOpen size={46} className="text-slate-900" />
+                <span className="text-slate-900 font-semibold text-lg">
+                  {language === "en"
+                    ? translations.en.no_data_here
+                    : translations.vi.no_data_here}
+                </span>
+              </div>
+            ) : (
+              <div className="w-full h-[86%] md:h-[85%] grid items-center justify-center gap-2 md:gap-5 grid-cols-2 grid-rows-3 md:grid-cols-3 md:grid-rows-2 pl-2 md:pl-5 md:py-2">
+                {currentItems.map((item, index) => (
+                  <ItemMenu
+                    language={language}
+                    accessToken={accessToken}
+                    owner_id={owner_id}
+                    restaurant_id={restaurant_id}
+                    menu_item_id={item.id}
+                    menu_item_name={item.name}
+                    menu_item_image_url={item.image}
+                    menu_item_price={item.price}
+                    key={item.id}
+                  />
+                ))}
+              </div>
+            )}
+
             {/* pagination */}
-            <div className="h-[8%] w-full px-3 flex items-center justify-between border-t-[1px] border-slate-200">
+            <div className="h-[6%] md:h-[8%] w-full px-3 flex items-center justify-between border-t-[1px] border-slate-200">
               <span className="text-base font-semibold text-slate-700">
                 {language === "en"
                   ? translations.en.total_count_menu
                   : translations.vi.total_count_menu}
-                6
+                {filterMenuItems.length}
               </span>
 
-              <Pagination
-                count={10}
-                variant="outlined"
-                shape="rounded"
-                size="small"
-              />
+              {filterMenuItems.length > 0 ? (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  variant="outlined"
+                  shape="rounded"
+                  size="small"
+                />
+              ) : (
+                <div />
+              )}
             </div>
           </div>
         </div>

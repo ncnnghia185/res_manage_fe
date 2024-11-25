@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import { GetAllTablesResponse,TableData } from "@/services/apiResponse";
 import { tableServices } from "@/services";
 
