@@ -53,6 +53,7 @@ export const translations = {
     notification_icon:"Notification",
     en_icon:"EN",
     vi_icon:"VI",
+    current_have: "Current have ",
     // login and register translations
     back_to_home:"Back to home",
     username: "Email or phone number",
@@ -115,6 +116,12 @@ export const translations = {
     price_asc: "Low to High",
     price_desc: "High to Low",
     please_select_restaurant:"Please select restaurant to create category",
+    accept_delete_category:"Are you want delete this category",
+    warning_item_in_category:" item(s) of this menu category",
+    delete_item_before:"Please delete all items of this category before !",
+    success_delete_category:"Success delete category",
+    error_delete_category:"Failed to delete category",
+    // table manage
     // menu manage
     create_menu_item_label: "Create new menu item",
     tab_general_info: "General information",
@@ -152,6 +159,8 @@ export const translations = {
     price_item:"Price : ",
     success_delete_menu_item:"Success delete menu item",
     error_delete_menu_item:"Failed to delete menu item",
+    menu_item_detail_title:"Menu Item Detail",
+    error_fetch_menu_item:"Failed to fetch menu item detail",
     // location manage
     table_manage: "tables manage",
     location: "Locations",
@@ -275,6 +284,7 @@ export const translations = {
     notification_icon:"Thông báo",
     en_icon:"EN",
     vi_icon:"VI",
+    current_have:"Hiện đang có ",
     // login and register translations
     back_to_home:"Về trang chủ",
     username: "Email hoặc số điện thoại",
@@ -340,6 +350,11 @@ export const translations = {
     price_asc: "Thấp đến Cao",
     price_desc: "Cao đến Thấp",
     please_select_restaurant:"Vui lòng chọn nhà hàng để tạo danh mục",
+    accept_delete_category:"Bạn có chắc muốn xóa danh mục món ăn này không ?",
+    warning_item_in_category:" sản phẩm thuộc danh mục này.",
+    delete_item_before:"Vui lòng xóa các sản phẩm thuộc danh mục này trước!",
+    success_delete_category:"Xóa danh mục món ăn thành công",
+    error_delete_category:"Xóa danh mục món ăn thất bại",
     // menu manage
     create_menu_item_label: "Tạo mới món ăn",
     tab_general_info: "Thông tin chung",
@@ -368,7 +383,7 @@ export const translations = {
     button_remove_ingredient:"Xóa",
     original_menu_item_price:"Giá gốc",
     info_original_price_tooltip:"Được tính theo tổng nguyên liệu",
-    accept_delete_menu_item: " Bạn có muốn xóa món ăn này không ?",
+    accept_delete_menu_item: " Bạn có chắc muốn xóa món ăn này không ?",
     success_create_menu_item:"Tạo mới món ăn thành công",
     error_create_menu_item:"Tạo mới món ăn thất bại",
     missing_required_data:"Thiếu các thông tin bắt buộc",
@@ -377,6 +392,8 @@ export const translations = {
     price_item:"Giá bán : ",
     success_delete_menu_item:"Xóa món ăn thành công",
     error_delete_menu_item:"Xóa món ăn thất bại",
+    menu_item_detail_title:"Thông tin món ăn",
+    error_fetch_menu_item:"Lỗi lấy thông tin món ăn",
     // location manage
     table_manage: "quản lý bàn ăn",
     location: "Khu vực",

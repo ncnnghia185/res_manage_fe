@@ -1,5 +1,6 @@
 "use client";
 import DeleteModal from "@/app/menu/components/DeleteModal";
+import DetailDrawer from "@/app/menu/components/DetailDrawer";
 import { translations } from "@/constants/language/translation";
 import {
   IconButton,
@@ -55,10 +56,13 @@ const ItemMenu = ({
   };
 
   // toggle open detail drawer
-  const toggleOpenDetailDrawer = (itemId: string) => {
+  const toggleOpenDetailDrawer = () => {
     setOpenDetailItemDrawer(true);
   };
   // toggle close detail drawer
+  const toggleCloseDetailDrawer = () => {
+    setOpenDetailItemDrawer(false);
+  };
   // handle open update item modal
   const handleOpenUpdateModal = (itemId: string) => {
     setOpenUpdateItemModal(true);
@@ -78,7 +82,10 @@ const ItemMenu = ({
   return (
     <div className="w-full h-[90%] max-h-full flex flex-col bg-gray-200 gap-2 items-center justify-center py-1 px-3 border-[1px] border-gray-400 rounded-md">
       <div className="h-[15%] w-full flex items-center justify-between border-b-[1px] border-slate-300">
-        <span className="text-base md:text-lg font-semibold text-slate-900 pl-3 md:pl-5">
+        <span
+          className="text-base md:text-lg font-semibold text-slate-900 pl-3 md:pl-5 cursor-pointer"
+          onClick={toggleOpenDetailDrawer}
+        >
           {menu_item_name}
         </span>
         <IconButton
@@ -147,7 +154,8 @@ const ItemMenu = ({
       <img
         src={menu_item_image_url}
         alt="menu_item_image"
-        className="w-[80%] md:w-[70%] h-[70%] max-h-[70%] object-scale-down"
+        className="w-[80%] md:w-[70%] h-[70%] max-h-[70%] object-scale-down cursor-pointer"
+        onClick={toggleOpenDetailDrawer}
       />
 
       <span className="w-full h-[15%] text-base font-semibold text-slate-900 flex items-center justify-center">
@@ -156,7 +164,16 @@ const ItemMenu = ({
           : translations.vi.price_item}{" "}
         {menu_item_price}
       </span>
-
+      {/* Detail item drawer */}
+      <DetailDrawer
+        language={language}
+        accessToken={accessToken}
+        owner_id={owner_id}
+        restaurant_id={restaurant_id}
+        menu_item_id={menu_item_id}
+        isOpen={openDetailItemDrawer}
+        toggleClose={toggleCloseDetailDrawer}
+      />
       {/* delete item modal */}
       <DeleteModal
         language={language}

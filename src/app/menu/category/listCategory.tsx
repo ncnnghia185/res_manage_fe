@@ -23,6 +23,7 @@ import { translations } from "@/constants/language/translation";
 import { Trash, Edit2, MoreVerticalIcon } from "lucide-react";
 import UpdateCategoryModal from "./updateCategoryModal";
 import { GetAllCategoriesResponse } from "@/services/apiResponse";
+import DeleteCategoryModal from "./deleteCategoryModal";
 type props = {
   language: string;
   owner_id: number;
@@ -45,7 +46,7 @@ const ListCategory = ({
   const [updateCategoryId, setUpdateCategoryId] = useState<number>();
   const [currentCategoryName, setCurrentCategoryName] = useState<string>();
   const [openDeleteCategoryModal, setOpenDeleteCategoryModal] = useState(false);
-  const [deleteCategoryId, setDeleteCategoryId] = useState<number | null>();
+  const [deleteCategoryId, setDeleteCategoryId] = useState<number>();
   const [menuCategory, setMenuCategory] = useState<number | null>(null);
 
   // fetch all categories
@@ -120,6 +121,11 @@ const ListCategory = ({
     setOpenUpdateCategoryModal(false);
     setUpdateCategoryId(0);
   };
+  // handle close delete modal
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteCategoryModal(false);
+    setDeleteCategoryId(0);
+  };
   return (
     <div className="h-full w-full pl-2">
       <FormGroup>
@@ -187,7 +193,7 @@ const ListCategory = ({
                 </ListItemText>
               </MenuItem>
               <MenuItem
-                onClick={handleMenuClose}
+                onClick={() => handleOpenDelete(category.id)}
                 sx={{
                   ":hover": {
                     backgroundColor: "#ecf0f1",
@@ -215,6 +221,16 @@ const ListCategory = ({
         category_id={updateCategoryId}
         category_name={currentCategoryName}
         handleClose={handleCloseUpdateModal}
+        language={language}
+        owner_id={owner_id}
+        restaurant_id={restaurant_id}
+        accessToken={accessToken}
+      />
+
+      <DeleteCategoryModal
+        isOpen={openDeleteCategoryModal}
+        handleClose={handleCloseDeleteModal}
+        category_id={deleteCategoryId}
         language={language}
         owner_id={owner_id}
         restaurant_id={restaurant_id}

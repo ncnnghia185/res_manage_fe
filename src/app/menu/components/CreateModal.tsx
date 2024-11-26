@@ -377,7 +377,7 @@ const CreateModal = ({
 
             <X
               size={22}
-              className="bg-red-500 hover:bg-red-600 cursor-pointer text-gray-100"
+              className="bg-[#ef4444] hover:bg-[#dc2626] cursor-pointer text-[#f3f4f6]"
               onClick={handleCloseModal}
             />
           </div>
@@ -916,6 +916,11 @@ const CreateModal = ({
                       variant="text"
                       endIcon={<Plus color="#121212" size={18} />}
                       onClick={handleAddIngredient}
+                      sx={{
+                        ":hover": {
+                          backgroundColor: "#bae6fd",
+                        },
+                      }}
                     >
                       <span className="text-base capitalize text-[#121212]">
                         {language === "en"
@@ -965,7 +970,7 @@ const CreateModal = ({
         {/* button */}
         <div className="w-full h-14 mt-2 flex items-center justify-end gap-2 pr-3">
           <button
-            className="w-28 h-10 bg-blue-500 border rounded-md hover:bg-blue-600 flex items-center justify-center gap-2"
+            className="w-28 h-10 bg-[#3b82f6] border rounded-md hover:bg-[#0891b2] flex items-center justify-center gap-2"
             type="button"
             onClick={handleCombinedSubmit}
             disabled={loading}
@@ -978,17 +983,17 @@ const CreateModal = ({
                 }}
               />
             )}
-            <span className="text-base font-bold text-gray-100">
+            <span className="text-base font-bold text-[#f1f5f9]">
               {language === "en"
                 ? translations.en.save_update
                 : translations.vi.save_update}
             </span>
           </button>
           <button
-            className="w-28 h-10 bg-red-500 border rounded-md hover:bg-red-600"
+            className="w-28 h-10 bg-[#ef4444] border rounded-md hover:bg-[#dc2626]"
             onClick={handleCloseModal}
           >
-            <span className="text-base font-bold text-gray-100">
+            <span className="text-base font-bold text-[#f1f5f9]">
               {language === "en"
                 ? translations.en.cancel_update
                 : translations.vi.cancel_update}

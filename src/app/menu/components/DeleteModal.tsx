@@ -69,14 +69,14 @@ const DeleteModal = ({
       <Box sx={updateModal}>
         {/* Header */}
         <div className="h-10 w-full border-b-[1px] border-gray-400 flex px-3 items-center justify-between">
-          <span className="text-lg font-semibold text-slate-950">
+          <span className="text-lg font-semibold text-[#121212]">
             {language === "en"
               ? translations.en.delete_table_label
               : translations.vi.delete_table_label}
           </span>
           <X
             size={22}
-            className="bg-red-500 hover:bg-red-600 cursor-pointer text-gray-100"
+            className="bg-[#ef4444] hover:bg-[#dc2626] cursor-pointer text-[#f3f4f6]"
             onClick={handleClose}
           />
         </div>
@@ -84,8 +84,7 @@ const DeleteModal = ({
         {/* Contents */}
         <div className="h-12 w-full flex items-center justify-center mt-2 gap-2">
           <TriangleAlert size={22} color="#e74c3c" />
-          <span className="font-semibold text-base text-red-600">
-            {menu_item_name}.
+          <span className="font-semibold text-base text-[#ef4444]">
             {language === "en"
               ? translations.en.accept_delete_menu_item
               : translations.vi.accept_delete_menu_item}
@@ -95,7 +94,7 @@ const DeleteModal = ({
         {/* Footer */}
         <div className="w-full h-14  mt-2 flex items-center justify-end gap-2 pr-3">
           <button
-            className="w-28 h-10 bg-red-500 border rounded-md hover:bg-red-600"
+            className="w-28 h-10 bg-[#ef4444] border rounded-md hover:bg-[#dc2626]"
             type="submit"
             onClick={handleDelete}
             disabled={loading}
@@ -108,17 +107,17 @@ const DeleteModal = ({
                 }}
               />
             )}
-            <span className="text-base font-bold text-gray-100">
+            <span className="text-base font-bold text-[#f3f4f6]">
               {language === "en"
                 ? translations.en.delete
                 : translations.vi.delete}
             </span>
           </button>
           <button
-            className="w-28 h-10 bg-gray-500 border rounded-md hover:bg-gray-600"
+            className="w-28 h-10 bg-[#6b7280] border rounded-md hover:bg-[#4b5563]"
             onClick={handleClose}
           >
-            <span className="text-base font-bold text-gray-100">
+            <span className="text-base font-bold text-[#f3f4f6]">
               {language === "en"
                 ? translations.en.cancel_update
                 : translations.vi.cancel_update}
