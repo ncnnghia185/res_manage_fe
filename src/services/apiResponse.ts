@@ -101,7 +101,11 @@ export interface GetAllCategoriesResponse{
 	message:string,
 	data: CategoryData[]
 }
-
+export interface GetCountItemsOfCategory{
+	success:boolean,
+	message:string,
+	data:number
+}
 export interface CreateCategoryResponse{
 	success:boolean,
 	message:string,
@@ -145,4 +149,30 @@ export interface CreateMenuIngredientResponse{
 export interface DeleteMenuItemResponse{
 	success:boolean,
 	message:string
+}
+
+export interface GeneralItemInfo{
+	id:string,
+	name:string,
+	price:string,
+	image:string,
+	description?:string,
+	original_cost:string
+	category_id:number
+}
+
+export interface IngredientsInfo{
+	ingredient_name: string | null,
+  quantity: number | null,
+  ingredient_unit: string | null, 
+  cost_per_unit: number | null
+}
+
+export interface GetMenuItemDetailResponse{
+	success:boolean,
+	message:string,
+	data: {
+		generalInfo: GeneralItemInfo,
+    ingredients: IngredientsInfo[]
+	}
 }

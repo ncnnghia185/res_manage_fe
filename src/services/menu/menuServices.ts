@@ -61,8 +61,12 @@ export const getAllCategories = async (accessToken:string,owner_id?:number, rest
 };
 
 // get one category
-export const getCategoryDetail = async (id: any) => {
-  const response = await axios.get(`${BASE_URL}/categories/infor/${id}`);
+export const getCategoryDetail = async ( owner_id:number, restaurant_id:number,accessToke:string,id?: number) => {
+  const response = await axios.get(`${BASE_URL}/categories/infor/${id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
+    headers:{
+      Authorization: `Bearer ${accessToke}`
+    }
+  });
   return response.data;
 };
 export const updateCategoryName = async (owner_id: number,
@@ -81,7 +85,15 @@ export const updateCategoryName = async (owner_id: number,
       }
     );
     return response.data;
-  }
+}
+export const deleteCategory = async (category_id:number, owner_id:number, restaurant_id:number, accessToken:string) =>{
+  const response = await axios.delete(`${BASE_URL}/categories/delete/${category_id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  return response.data;
+}
 
 // MENU APIS
 // create new menu
@@ -109,8 +121,12 @@ export const getAllMenu = async (accessToken:string, owner_id:number, restaurant
 };
 
 // get one menu item
-export const getMenuDetail = async (id: any) => {
-  const response = await axios.get(`${BASE_URL}/menu/item/${id}`);
+export const getMenuDetail = async (id: string, owner_id:number, restaurant_id:number, accessToken:string) => {
+  const response = await axios.get(`${BASE_URL}/menu/item/${id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
+    headers:{
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
   return response.data;
 };
 

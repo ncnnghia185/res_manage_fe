@@ -79,15 +79,15 @@ const UpdateCategoryModal = ({
   return (
     <Modal open={isOpen} onClose={handleClose}>
       <Box sx={updateModal}>
-        <div className="h-10 w-full border-b-[1px] border-gray-400 flex px-3 items-center justify-between">
-          <span className="text-lg font-semibold text-slate-950">
+        <div className="h-10 w-full border-b-[1px] border-[#bdc3c7] flex px-3 items-center justify-between">
+          <span className="text-lg font-semibold text-[#121212]">
             {language === "en"
               ? translations.en.update_category
               : translations.vi.update_category}
           </span>
           <X
             size={22}
-            className="bg-red-500 hover:bg-red-600 cursor-pointer text-gray-100"
+            className="bg-[#ef4444] hover:bg-[#dc2626] cursor-pointer text-[#f3f4f6]"
             onClick={handleClose}
           />
         </div>
@@ -108,21 +108,21 @@ const UpdateCategoryModal = ({
         </div>
         <div className="w-full h-14  mt-2 flex items-center justify-end gap-2 pr-3">
           <button
-            className="w-28 h-10 bg-blue-500 border rounded-md hover:bg-blue-600"
+            className="w-28 h-10 bg-[#3b82f6] border rounded-md hover:bg-[#0891b2]"
             type="submit"
             onClick={handleUpdateCategory}
           >
-            <span className="text-base font-bold text-slate-100">
+            <span className="text-base font-bold text-[#f1f5f9]">
               {language === "en"
                 ? translations.en.save_update
                 : translations.vi.save_update}
             </span>
           </button>
           <button
-            className="w-28 h-10 bg-red-500 border rounded-md hover:bg-red-600"
+            className="w-28 h-10 bg-[#ef4444] border rounded-md hover:bg-[#dc2626]"
             onClick={handleClose}
           >
-            <span className="text-base font-bold text-slate-100">
+            <span className="text-base font-bold text-[#f1f5f9]">
               {language === "en"
                 ? translations.en.cancel_update
                 : translations.vi.cancel_update}
