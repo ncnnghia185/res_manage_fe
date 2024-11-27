@@ -236,6 +236,13 @@ export const translations = {
     require_name_value: "Restaurant name is required",
     require_address_value: "Restaurant address is required",
     require_phone_value: "Restaurant phone number is required",
+
+    // order manage
+    // add order manage
+    order_parent_label:"Orders",
+    add_order_label:"Add Order",
+    orders_manage:"Order Manage"
+  
   },
   vi: {
     // home page translations
@@ -479,5 +486,11 @@ export const translations = {
     require_name_value: "Tên nhà hàng là băt buộc",
     require_address_value: "Địa chỉ nhà hàng là băt buộc",
     require_phone_value: "Số điện thoại nhà hàng là băt buộc",
+
+    // order manage
+    // add order manage
+    order_parent_label:"Đơn hàng",
+    add_order_label:"Tạo đơn hàng",
+    orders_manage:"Quản lý đơn hàng"
   },
 };

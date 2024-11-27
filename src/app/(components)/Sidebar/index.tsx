@@ -11,6 +11,8 @@ import {
   TableCellsSplit,
   Tally2,
   User,
+  ConciergeBell,
+  Logs,
 } from "lucide-react";
 import Image from "next/image";
 import { translations } from "@/constants/language/translation";
@@ -53,7 +55,7 @@ const Sidebar = () => {
       </div>
 
       {/* Sidebar link */}
-      <div className="h-[80%] w-full flex flex-col items-start justify-start gap-2">
+      <div className="h-[80%] overflow-y-auto w-full flex flex-col items-start justify-start gap-2 scroll-container ">
         <SidebarLink
           href="/dashboard"
           icon={Layout}
@@ -82,10 +84,31 @@ const Sidebar = () => {
         />
 
         <SidebarLink
-          href="/users"
-          icon={User}
-          label="Users"
+          icon={ConciergeBell}
+          label={
+            language === "en"
+              ? translations.en.order_parent_label
+              : translations.vi.order_parent_label
+          }
           isCollapsed={isSidebarCollapsed}
+          subMenu={[
+            {
+              href: "orders/add-order",
+              label:
+                language === "en"
+                  ? translations.en.add_order_label
+                  : translations.vi.add_order_label,
+              icon: ConciergeBell,
+            },
+            {
+              href: "orders/manage-order",
+              label:
+                language === "en"
+                  ? translations.en.orders_manage
+                  : translations.vi.orders_manage,
+              icon: Logs,
+            },
+          ]}
         />
         <SidebarLink
           href="/settings"
@@ -102,8 +125,13 @@ const Sidebar = () => {
       </div>
 
       <div className="h-[10%] flex items-center justify-center w-full gap-2">
-        &copy;
-        <span className="text-sm font-bold text-slate-800">NCN-TOOF</span>
+        <span className="text-sm font-bold text-slate-800 select-none">
+          &copy;
+        </span>
+
+        <span className="text-sm font-bold text-slate-800 select-none">
+          NCN-TOOF
+        </span>
       </div>
 
       {/* Icon */}
