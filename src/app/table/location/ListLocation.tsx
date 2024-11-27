@@ -24,6 +24,7 @@ import {
 } from "@/redux/tableState/locationSlice";
 import UpdateLocationModal from "./UpdateLocationModal";
 import { updateLocationName } from "@/services/table/tableServices";
+import DeleteLocationModal from "./DeleteLocationModal";
 type props = {
   language: string;
   accessToken: string;
@@ -47,7 +48,7 @@ const ListLocation = ({
   const [updateLocationId, setUpdateLocationId] = useState<number>();
   const [currentLocationName, setCurrentLocationName] = useState<string>();
   const [openDeleteLocationModal, setOpenDeleteLocationModal] = useState(false);
-  const [deleteLocationId, setDeleteLocationId] = useState<number | null>();
+  const [deleteLocationId, setDeleteLocationId] = useState<number>();
   const [menuCategory, setMenuCategory] = useState<number | null>(null);
 
   // fetch all categories
@@ -121,6 +122,11 @@ const ListLocation = ({
     setMenuCategory(null);
   };
   // handle close modal
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteLocationModal(false);
+    setDeleteLocationId(0);
+  };
+  // handle close modal
   const handleCloseUpdateModal = () => {
     setOpenUpdateLocationModal(false);
     setUpdateLocationId(0);
@@ -192,7 +198,7 @@ const ListLocation = ({
                 </ListItemText>
               </MenuItem>
               <MenuItem
-                onClick={handleMenuClose}
+                onClick={() => handleOpenDelete(location.id)}
                 sx={{
                   ":hover": {
                     backgroundColor: "#ecf0f1",
@@ -224,6 +230,16 @@ const ListLocation = ({
         location_id={updateLocationId}
         location_name={currentLocationName}
         language={language}
+      />
+
+      <DeleteLocationModal
+        isOpen={openDeleteLocationModal}
+        handleClose={handleCloseDeleteModal}
+        language={language}
+        owner_id={owner_id}
+        restaurant_id={restaurant_id}
+        accessToken={accessToken}
+        location_id={deleteLocationId}
       />
     </div>
   );

@@ -42,6 +42,12 @@ export interface GetAllLocationResponse{
 	message: string,
   data: LocationData[]
 }
+
+export interface GetCountTablesOfLocationResponse{
+	success:boolean,
+	message:string,
+	data:number
+}
 export interface CreateLocationResponse{
 	success: boolean,
   message: string,
@@ -52,6 +58,11 @@ export interface UpdateLocationResponse{
 	message: string
 }
 
+export interface DeleteLocationResponse {
+	success:boolean,
+	message:string
+}
+
 // table api response
 export interface TableData{
 	id:number,
@@ -59,6 +70,7 @@ export interface TableData{
 	status:string,
 	location_id:number,
 	location_name:string,
+	type:string
 }
 export interface OneTableData{
 	id:number,

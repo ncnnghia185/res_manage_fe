@@ -231,7 +231,7 @@ const MenuPage = (props: Props) => {
                       }
                       sx={{
                         backgroundColor: isDarkMode ? "none" : "#ecf0f1",
-                        width: { sm: "60%", md: "80%" },
+                        width: { sm: "70%", md: "80%" },
                         borderWidth: "1.5px",
                         borderColor: "#636e72",
                         ":hover": {

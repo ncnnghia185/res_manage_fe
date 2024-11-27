@@ -8,6 +8,7 @@ import { tableServices } from "@/services";
 import { UpdateLocationResponse } from "@/services/apiResponse";
 import { useAppDispatch } from "@/redux/store";
 import { fetchAllLocations } from "@/redux/tableState/locationSlice";
+import { fetchAllTables } from "@/redux/tableState/tableSlice";
 
 type Props = {
   isOpen: boolean;
@@ -61,6 +62,7 @@ function UpdateLocationModal({
         );
         setNewLocationName("");
         dispatch(fetchAllLocations({ accessToken, owner_id, restaurant_id }));
+        dispatch(fetchAllTables({ accessToken, owner_id, restaurant_id }));
         handleClose();
       } else {
         setNewLocationName("");
@@ -84,15 +86,15 @@ function UpdateLocationModal({
     <Modal open={isOpen} onClose={handleCloseModal}>
       <Box sx={updateModal}>
         {/* Header */}
-        <div className="h-10 w-full border-b-[1px] border-gray-400 flex px-3 items-center justify-between">
-          <span className="text-lg font-semibold text-slate-950">
+        <div className="h-10 w-full border-b-[1px] border-[#bdc3c7] flex px-3 items-center justify-between">
+          <span className="text-lg font-semibold text-[#121212]">
             {language === "en"
               ? translations.en.update_location_label
               : translations.vi.update_location_label}
           </span>
           <X
             size={22}
-            className="bg-red-500 hover:bg-red-600 cursor-pointer text-gray-100"
+            className="bg-[#ef4444] hover:bg-[#dc2626] cursor-pointer text-[#f3f4f6]"
             onClick={handleClose}
           />
         </div>
@@ -117,21 +119,21 @@ function UpdateLocationModal({
         {/* Footer */}
         <div className="w-full h-14  mt-2 flex items-center justify-end gap-2 pr-3">
           <button
-            className="w-28 h-10 bg-green-500 border rounded-md hover:bg-green-600"
+            className="w-28 h-10 bg-[#3b82f6] border rounded-md hover:bg-[#0891b2]"
             type="submit"
             onClick={handleUpdateLocation}
           >
-            <span className="text-base font-bold text-slate-900">
+            <span className="text-base font-bold text-[#f1f5f9]">
               {language === "en"
                 ? translations.en.save_update
                 : translations.vi.save_update}
             </span>
           </button>
           <button
-            className="w-28 h-10 bg-red-500 border rounded-md hover:bg-red-600"
+            className="w-28 h-10 bg-[#ef4444] border rounded-md hover:bg-[#dc2626]"
             onClick={handleCloseModal}
           >
-            <span className="text-base font-bold text-slate-900">
+            <span className="text-base font-bold text-[#f1f5f9]">
               {language === "en"
                 ? translations.en.cancel_update
                 : translations.vi.cancel_update}

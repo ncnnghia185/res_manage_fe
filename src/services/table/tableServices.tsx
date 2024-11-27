@@ -28,10 +28,16 @@ export const getAllLocations = async (
 export const getLocationInfor = async (
   owner_id: number,
   restaurant_id: number,
-  location_id: number
+  accessToken: string,
+  location_id?: number
 ) => {
   const response = await axios.get(
-    `${BASE_URL}/location/infor?owner_id=${owner_id}&restaurant_id=${restaurant_id}/${location_id}}`
+    `${BASE_URL}/location/infor/${location_id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
   );
   return response.data;
 };
@@ -64,6 +70,24 @@ export const updateLocationName = async (
     {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+// delete location
+export const deleteLocation = async (
+  owner_id: number,
+  restaurant_id: number,
+  accessToken: string,
+  location_id?: number
+) => {
+  const response = await axios.delete(
+    `${BASE_URL}/location/delete/${location_id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,
+    {
+      headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     }

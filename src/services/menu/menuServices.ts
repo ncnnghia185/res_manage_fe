@@ -86,7 +86,7 @@ export const updateCategoryName = async (owner_id: number,
     );
     return response.data;
 }
-export const deleteCategory = async (category_id:number, owner_id:number, restaurant_id:number, accessToken:string) =>{
+export const deleteCategory = async ( owner_id:number, restaurant_id:number, accessToken:string,category_id?:number) =>{
   const response = await axios.delete(`${BASE_URL}/categories/delete/${category_id}?owner_id=${owner_id}&restaurant_id=${restaurant_id}`,{
     headers: {
       Authorization: `Bearer ${accessToken}`,

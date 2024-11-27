@@ -107,15 +107,15 @@ const CreateTable = ({
     <Modal open={isOpen}>
       <Box sx={updateModal}>
         {/* Header */}
-        <div className="h-10 w-full border-b-[1px] border-gray-400 flex px-3 items-center justify-between">
-          <span className="text-lg font-semibold text-slate-950">
+        <div className="h-10 w-full border-b-[1px] border-[#bdc3c7] flex px-3 items-center justify-between">
+          <span className="text-lg font-semibold text-[#121212]">
             {language === "en"
               ? translations.en.create_table_label
               : translations.vi.create_table_label}
           </span>
           <X
             size={22}
-            className="bg-red-500 hover:bg-red-600 cursor-pointer text-gray-100"
+            className="bg-[#ef4444] hover:bg-[#dc2626] cursor-pointer text-[#f3f4f6]"
             onClick={handleClose}
           />
         </div>
@@ -132,7 +132,7 @@ const CreateTable = ({
               <div className="mb-5 flex flex-col w-full items-center justify-center h-12">
                 <div className="w-full flex items-center justify-center gap-2">
                   <div className="w-[25%] h-8 flex items-end">
-                    <span className="text-slate-900 text-base font-bold">
+                    <span className="text-[#121212] text-base font-bold">
                       {language === "en"
                         ? translations.en.table_name
                         : translations.vi.table_name}
@@ -140,7 +140,7 @@ const CreateTable = ({
                   </div>
                   <Field
                     as={TextField}
-                    className=" h-12 w-[65%]  py-2 px-3 text-gray-700 "
+                    className=" h-12 w-[65%]  py-2 px-3 text-[#4b5563]"
                     id="name"
                     name="name"
                     type="text"
@@ -171,14 +171,14 @@ const CreateTable = ({
               <div className="mb-5 flex flex-col w-full items-center justify-center h-12">
                 <div className="w-full flex items-center justify-center gap-2">
                   <div className="w-[25%] h-8 flex items-end">
-                    <span className="text-slate-900 text-base font-bold">
+                    <span className="text-[#121212] text-base font-bold">
                       {language === "en"
                         ? translations.en.table_location
                         : translations.vi.table_location}
                     </span>
                   </div>
                   <Select
-                    className=" h-12 w-[65%] py-2  text-gray-700 "
+                    className=" h-12 w-[65%] py-2  text-[#4b5563]"
                     id="location_id"
                     name="location_id"
                     value={values.location_id}
@@ -212,14 +212,14 @@ const CreateTable = ({
               <div className="mb-5 flex flex-col w-full items-center justify-center h-12">
                 <div className="w-full flex items-center justify-center gap-2">
                   <div className="w-[25%] h-8 flex items-end">
-                    <span className="text-slate-900 text-base font-bold">
+                    <span className="text-[#121212] text-base font-bold">
                       {language === "en"
                         ? translations.en.table_capacity
                         : translations.vi.table_capacity}
                     </span>
                   </div>
                   <Select
-                    className=" h-12 w-[65%] py-2 text-gray-700 "
+                    className=" h-12 w-[65%] py-2 text-[#4b5563]"
                     id="capacity"
                     name="capacity"
                     value={values.capacity}
@@ -259,14 +259,14 @@ const CreateTable = ({
               <div className="mb-5 flex flex-col w-full items-center justify-center h-12">
                 <div className="w-full flex items-center justify-center gap-2">
                   <div className="w-[25%] h-8 flex items-end">
-                    <span className="text-slate-900 text-base font-bold">
+                    <span className="text-[#121212] text-base font-bold">
                       {language === "en"
                         ? translations.en.table_type
                         : translations.vi.table_type}
                     </span>
                   </div>
                   <Select
-                    className=" h-12 w-[65%] py-2 text-gray-700 "
+                    className=" h-12 w-[65%] py-2 text-[#4b5563]"
                     id="type"
                     name="type"
                     value={values.type}
@@ -297,20 +297,20 @@ const CreateTable = ({
               {/* Footer */}
               <div className="w-full h-12 flex items-center justify-end gap-8 pr-10 pt-3">
                 <button
-                  className="w-28 h-10 bg-green-500 border rounded-md hover:bg-green-600"
+                  className="w-28 h-10 bg-[#3b82f6] border rounded-md hover:bg-[#0891b2]"
                   type="submit"
                 >
-                  <span className="text-base font-bold text-slate-900">
+                  <span className="text-base font-bold text-[#f3f4f6]">
                     {language === "en"
                       ? translations.en.save_update
                       : translations.vi.save_update}
                   </span>
                 </button>
                 <button
-                  className="w-28 h-10 bg-red-500 border rounded-md hover:bg-red-600"
+                  className="w-28 h-10 bg-[#ef4444] border rounded-md hover:bg-[#dc2626]"
                   onClick={handleClose}
                 >
-                  <span className="text-base font-bold text-slate-900">
+                  <span className="text-base font-bold text-[#f3f4f6]">
                     {language === "en"
                       ? translations.en.cancel_update
                       : translations.vi.cancel_update}
