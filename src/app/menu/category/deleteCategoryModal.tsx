@@ -19,7 +19,7 @@ type Props = {
   accessToken: string;
   owner_id: number;
   restaurant_id: number;
-  category_id: number;
+  category_id?: number;
   isOpen: boolean;
   handleClose: () => void;
 };
@@ -60,10 +60,10 @@ const DeleteCategoryModal = ({
     try {
       const response: DeleteCategoryResponse =
         await menuServices.deleteCategory(
-          category_id,
           owner_id,
           restaurant_id,
-          accessToken
+          accessToken,
+          category_id
         );
       if (response.success === true) {
         toast.success(

@@ -33,8 +33,8 @@ const SidebarSmall = ({ sidebarSmallCollapse, language }: Props) => {
       <div className="w-full h-[86%] flex flex-col items-center justify-start gap-2">
         <Link
           href="/dashboard"
-          className={`w-[80%] h-10 flex items-center justify-center gap-5 border-1 border-blue-300 rounded-md ${
-            isActive("/dashboard") ? "bg-blue-300 text-white" : ""
+          className={`w-[85%] h-10 flex items-center justify-center gap-5 border-1 border-[#60a5fa] rounded-md ${
+            isActive("/dashboard") ? "bg-[#a5b4fc] text-white" : ""
           }`}
         >
           <Layout />
@@ -48,8 +48,8 @@ const SidebarSmall = ({ sidebarSmallCollapse, language }: Props) => {
         {/* menu item */}
         <Link
           href="/menu"
-          className={`w-[80%] h-10 flex items-center justify-center gap-5 border-[1px] border-blue-300 rounded-md ${
-            isActive("/menu") ? "bg-blue-300 text-white" : ""
+          className={`w-[80%] h-10 flex items-center justify-center gap-5 border-[1px] border-[#60a5fa] rounded-md ${
+            isActive("/menu") ? "bg-[#a5b4fc] text-white" : ""
           }`}
         >
           <Clipboard />

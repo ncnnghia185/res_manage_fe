@@ -53,6 +53,7 @@ export const translations = {
     notification_icon:"Notification",
     en_icon:"EN",
     vi_icon:"VI",
+    of:"of total",
     current_have: "Current have ",
     // login and register translations
     back_to_home:"Back to home",
@@ -121,7 +122,6 @@ export const translations = {
     delete_item_before:"Please delete all items of this category before !",
     success_delete_category:"Success delete category",
     error_delete_category:"Failed to delete category",
-    // table manage
     // menu manage
     create_menu_item_label: "Create new menu item",
     tab_general_info: "General information",
@@ -177,6 +177,9 @@ export const translations = {
     error_update_location: "Failed update location",
     success_delete_location: "Success delete location",
     error_delete_location: "Failed delete location",
+    warning_table_in_location:"table(s) of this location",
+    delete_table_before:"Please delete all tables of this location before !",
+    accept_delete_location:"Are you want delete this location",
 
     // table manage
     create_table_label: "Create new table",
@@ -195,6 +198,8 @@ export const translations = {
     reserved_table: "Reserved",
     table_name: "Table name",
     table_location: "Location",
+    table_status:"Status",
+    table_actions:"Actions",
     table_capacity: "Capacity",
     capacity_six: "Capacity of six people",
     capacity_ten: "Capacity of ten people",
@@ -205,8 +210,9 @@ export const translations = {
     required_table_capacity: "Table capacity is required",
     required_table_type: "Table type is required",
     total_count_table: "Total number of tables : ",
-    accept_delete_table: "Are you sure to delete this table : ",
+    accept_delete_table: "Are you sure to delete this table ?",
     no_changes_made: "No changes made",
+    error_fetch_one_table:"Error get table information",
 
     // restaurant manage
     add_new_restaurant: "Add new restaurant",
@@ -284,6 +290,7 @@ export const translations = {
     notification_icon:"Thông báo",
     en_icon:"EN",
     vi_icon:"VI",
+    of:"trên tổng số",
     current_have:"Hiện đang có ",
     // login and register translations
     back_to_home:"Về trang chủ",
@@ -410,6 +417,9 @@ export const translations = {
     error_update_location: "Cập nhật khu vực thất bại",
     success_delete_location: "Xóa khu vực thành công",
     error_delete_location: "Xóa khu vực thất bại",
+    warning_table_in_location:"bàn thuộc khu vực này.",
+    delete_table_before:"Vui lòng xóa các bàn ăn thuộc khu vực này trước!",
+    accept_delete_location:"Bạn có muốn xóa khu vực này không",
 
     // table manage
     create_table_label: "Tạo bàn ăn mới",
@@ -429,18 +439,23 @@ export const translations = {
     reserved_table: "Đã đặt trước",
     table_name: "Tên bàn ăn",
     table_location: "Khu vực",
+    table_status:"Trạng thái",
+    table_actions:"Hành động",
     table_capacity: "Sức chứa",
     capacity_six: "Bàn 6 người",
     capacity_ten: "Bàn 10 người",
     table_type: "Loại",
+    vip_table:"Bàn VIP",
+    regular_table:"Bàn thường",
     table_name_placeholder: "Nhập tên bàn ăn",
     required_table_name: "Tên của bàn ăn là bắt buộc",
     required_table_location: "Khu vực của bàn ăn là bắt buộc",
     required_table_capacity: "Sức chứa của bàn là bắt buộc",
     required_table_type: "Loại bàn là bắt buộc",
     total_count_table: "Tổng số bàn ăn : ",
-    accept_delete_table: "Bạn có chắc muốn xóa bàn ăn : ",
+    accept_delete_table: "Bạn có chắc muốn xóa bàn ăn này không ?",
     no_changes_made: "Không có sự cập nhật nào",
+    error_fetch_one_table:"Lỗi lấy thông tin của bàn ăn",
 
     // restaurant manage
     add_new_restaurant: "Thêm mới nhà hàng",
