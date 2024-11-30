@@ -30,5 +30,22 @@ body,
 .scroll-container::-webkit-scrollbar {
   display: none;
 }
+
+.custom-scroll-bar {
+  scrollbar-width: thin;
+  scrollbar-color: #bdc3c7 #f8f9fa;
+}
+.custom-scroll-bar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+  background-color: #4a90e2;
+  border-radius: 8px;
+}
+.custom-scroll-bar::-webkit-scrollbar-track {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+}
+
 @media screen and (min-width: 640px) {
 }

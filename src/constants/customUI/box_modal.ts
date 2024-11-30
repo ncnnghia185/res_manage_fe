@@ -1,6 +1,6 @@
 export const updateModal= {
 	maxWidth: "550px",
-	minWidth:"440px",
+	minWidth:{sm:"490px",md:"520px"},
 	position: "absolute",
 	top: "20%",
 	left: "50%",

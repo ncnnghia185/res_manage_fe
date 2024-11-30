@@ -241,8 +241,36 @@ export const translations = {
     // add order manage
     order_parent_label:"Orders",
     add_order_label:"Add Order",
-    orders_manage:"Order Manage"
-  
+    orders_manage:"Order Manage",
+
+    // dashboard manage
+    today_sales_result:"Today's sales results",
+    over_view_title:"Overview statistic",
+    new_information:"New Information",
+    open_shift:"Open shift",
+    close_shift:"Close shift",
+    open_shift_fund:"Open shift fund",
+    close_shift_fund:"Close shift fund : ",
+    explain_shift_fund:"The cash fund is the amount of money prepared and placed in the cash register at the beginning of each shift, intended to provide change for customers during sales transactions.",
+    required_shift_date:"Sales date is required",
+    required_open_time:"Open time is required",
+    required_open_cash:"Open cash is required",
+    success_add_open_shift_fund:"Success add shift open fund",
+    error_add_open_shift_fund:"Failed to add shift fund",
+    open_shift_fund_id_title:"Shift fund id",
+    open_date_title:"Sales date",
+    open_time_title:"Open time",
+    open_cash_title:"Open cash",
+    shift_fund_notes:"Notes",
+    shift_fund_notes_placeholder:"Enter notes (if any)...",
+    error_fetch_current_shift_fund:"Failed to get current shift fund",
+    time_open_shift_fund:"Open time",
+    time_close_shift_fund:"Close time",
+    close_cash_title:"Close cash",
+    money_arises:"Money arises",
+    actual_cash:"Actual cash handover",
+    difference_amout:"Difference amount",
+
   },
   vi: {
     // home page translations
@@ -491,6 +519,34 @@ export const translations = {
     // add order manage
     order_parent_label:"Đơn hàng",
     add_order_label:"Tạo đơn hàng",
-    orders_manage:"Quản lý đơn hàng"
+    orders_manage:"Quản lý đơn hàng",
+
+    // dashboard manage
+    today_sales_result:"Kết quả bán hàng hôm nay",
+    over_view_title:"Thống kê tổng quan",
+    new_information:"Các thông tin mới",
+    open_shift:"Mở ca",
+    close_shift:"Đóng ca",
+    open_shift_fund:"Mở tiền quỹ ca",
+    close_shift_fund:"Đóng ca bán hàng : ",
+    explain_shift_fund: "Đây là số tiền mặt được chuẩn bị và đưa vào quầy thu ngân vào đầu mỗi ca làm việc, nhằm mục đích phục vụ cho việc trả tiền thừa cho khách hàng trong quá trình bán hàng.",
+    required_shift_date:"Ngày bán hàng là bắt buộc",
+    required_open_time:"Giờ mở ca là bắt buộc",
+    required_open_cash:"Số tiền đầu ca là bắt buộc",
+    success_add_open_shift_fund:"Thêm tiền đầu ca thành công",
+    error_add_open_shift_fund:"Thêm tiền đầu ca thất bại",
+    open_shift_fund_id_title:"Mã ca bán hàng",
+    open_date_title:"Ngày bán hàng",
+    open_time_title:"Giờ bắt đầu",
+    open_cash_title:"Tiền quỹ mở ca",
+    shift_fund_notes:"Ghi chú",
+    shift_fund_notes_placeholder:"Nhập ghi chú (nếu có) ...",
+    error_fetch_current_shift_fund:"Lỗi lấy thông tin ca bán hàng hiện tại",
+    time_open_shift_fund:"Thời gian mở ca",
+    time_close_shift_fund:"Thời gian đóng ca",
+    close_cash_title:"Tiền cuối ca",
+    money_arises:"Tiền phát sinh",
+    actual_cash:"Tiền bàn giao thực tế",
+    difference_amout:"Số tiền chênh lệch",
   },
 };
