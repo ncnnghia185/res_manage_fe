@@ -12,6 +12,7 @@ const baseColors = [
   "blue",
   "black",
   "white",
+  "sky"
 ];
 
 const shadeMapping = {

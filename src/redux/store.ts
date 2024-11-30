@@ -25,6 +25,7 @@ import { restaurantReducer } from "@/redux/restaurantState/restaurantSlice";
 import { locationReducer } from "@/redux/tableState/locationSlice";
 import { tableReducer } from "@/redux/tableState/tableSlice";
 import { menuItemReducer } from "./menuState/menuSlice";
+import { shiftFundReducer } from "./shift_fund/shift_fundSlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -33,13 +34,14 @@ const rootReducer = combineReducers({
   restaurant: restaurantReducer,
   location: locationReducer,
   table: tableReducer,
-  menu_item: menuItemReducer
+  menu_item: menuItemReducer,
+  shift_fund:shiftFundReducer
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "global", "restaurant"],
+  whitelist: ["auth", "global", "restaurant","shift_fund"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

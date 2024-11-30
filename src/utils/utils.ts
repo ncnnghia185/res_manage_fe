@@ -87,3 +87,20 @@ export const generateId = (code: string) => {
 
   return `${code}-${id.toUpperCase()}`;
 };
+
+// format currency
+export const formatCurrency = (amount:string, language:string) :string=>{
+  const numericAmount = amount.replace(/[^0-9.]/g, '');
+  if (language === 'en') {
+    const [integerPart, decimalPart] = numericAmount.split('.'); 
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return decimalPart !== undefined
+      ? `${formattedInteger}.${decimalPart.slice(0, 2)}` 
+      : formattedInteger;
+  } else if (language === 'vi') {
+    const integerOnly = numericAmount.split('.')[0]; 
+    return integerOnly.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
+  }
+
+  return numericAmount;
+}

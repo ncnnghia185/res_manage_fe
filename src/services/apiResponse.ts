@@ -188,3 +188,38 @@ export interface GetMenuItemDetailResponse{
     ingredients: IngredientsInfo[]
 	}
 }
+
+// shift fund api response
+export interface CreateShiftFundResponse{
+	success:boolean,
+	message:string,
+}
+export interface OpenShiftFundData{
+	id:string,
+	shift_date:string,
+	open_time:string,
+	end_time:string,
+	open_cash:string,
+	close_cash:string,
+	total_revenue:string,
+	expenses:string,
+	notes:string
+}
+export interface GetDailyOpenShiftFundResponse{
+	success:boolean,
+	message:string,
+	data:OpenShiftFundData[]
+}
+export interface GetDetailShiftFund{
+	success:boolean,
+	message:string,
+	data: OpenShiftFundData
+}
+export interface UpdateEndShiftFund{
+	success:boolean,
+	message:string
+}
+export interface UpdateShiftFundNotesResponse{
+	success:boolean,
+	message:string
+}
