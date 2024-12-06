@@ -16,8 +16,12 @@ export const createNewRestaurant = async(data: restaurantDataType, accessToken:s
 }
 
 // get restaurant information
-export const getRestaurantInfo = async (res_id:number, owner_id:number) =>{
-	const response = await axios.get(`${BASE_URL}/restaurant/infor/${res_id}?owner_id=${owner_id}`)
+export const getRestaurantInfo = async (res_id:number, owner_id:number,accessToke:string) =>{
+	const response = await axios.get(`${BASE_URL}/restaurant/restaurant-infor/${res_id}?owner_id=${owner_id}`,{
+		headers:{
+      Authorization: `Bearer ${accessToke}`
+    }
+	})
 	return response.data
 }
 

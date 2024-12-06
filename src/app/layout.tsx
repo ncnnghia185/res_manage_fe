@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
+import NextTopLoader from "nextjs-toploader";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,6 +18,12 @@ export default function RootLayout({
       <body>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+            <NextTopLoader
+              color="#2299DD"
+              showSpinner={true}
+              speed={180}
+              height={3}
+            />
             {children}
             <ToastContainer
               position="top-right"

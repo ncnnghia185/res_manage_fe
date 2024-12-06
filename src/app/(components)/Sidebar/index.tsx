@@ -10,9 +10,16 @@ import {
   SlidersHorizontal,
   TableCellsSplit,
   Tally2,
-  User,
+  UsersRound,
   ConciergeBell,
   Logs,
+  Banknote,
+  DollarSign,
+  AlignVerticalSpaceAround,
+  ShoppingCart,
+  BaggageClaim,
+  ContactRound,
+  ChartColumnIncreasing,
 } from "lucide-react";
 import Image from "next/image";
 import { translations } from "@/constants/language/translation";
@@ -93,7 +100,7 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
           subMenu={[
             {
-              href: "orders/add-order",
+              href: "/add-order",
               label:
                 language === "en"
                   ? translations.en.add_order_label
@@ -101,7 +108,7 @@ const Sidebar = () => {
               icon: ConciergeBell,
             },
             {
-              href: "orders/manage-order",
+              href: "/manage-order",
               label:
                 language === "en"
                   ? translations.en.orders_manage
@@ -111,16 +118,121 @@ const Sidebar = () => {
           ]}
         />
         <SidebarLink
-          href="/settings"
-          icon={SlidersHorizontal}
-          label="Settings"
+          href="/payment"
+          icon={Banknote}
+          label={
+            language === "en"
+              ? translations.en.payment
+              : translations.vi.payment
+          }
           isCollapsed={isSidebarCollapsed}
         />
+
         <SidebarLink
-          href="/expenses"
-          icon={CircleDollarSign}
-          label="Expenses"
+          icon={AlignVerticalSpaceAround}
+          label={
+            language === "en"
+              ? translations.en.ingredient
+              : translations.vi.ingredient
+          }
           isCollapsed={isSidebarCollapsed}
+          subMenu={[
+            {
+              href: "/buy-ingredients",
+              label:
+                language === "en"
+                  ? translations.en.ingredient_sub_side_link1
+                  : translations.vi.ingredient_sub_side_link1,
+              icon: ShoppingCart,
+            },
+            {
+              href: "/inventory-ingredients",
+              label:
+                language === "en"
+                  ? translations.en.ingredient_sub_side_link2
+                  : translations.vi.ingredient_sub_side_link2,
+              icon: BaggageClaim,
+            },
+          ]}
+        />
+        <SidebarLink
+          icon={CircleDollarSign}
+          label={
+            language === "en"
+              ? translations.en.expenses
+              : translations.vi.expenses
+          }
+          isCollapsed={isSidebarCollapsed}
+          subMenu={[
+            {
+              href: "/fixed-expenses",
+              label:
+                language === "en"
+                  ? translations.en.expenses_sub_side_link1
+                  : translations.vi.expenses_sub_side_link1,
+              icon: DollarSign,
+            },
+            {
+              href: "/incurred-expenses",
+              label:
+                language === "en"
+                  ? translations.en.expenses_sub_side_link2
+                  : translations.vi.expenses_sub_side_link2,
+              icon: DollarSign,
+            },
+          ]}
+        />
+        <SidebarLink
+          icon={UsersRound}
+          label={
+            language === "en" ? translations.en.staff : translations.vi.staff
+          }
+          isCollapsed={isSidebarCollapsed}
+          subMenu={[
+            {
+              href: "/staff-manage",
+              label:
+                language === "en"
+                  ? translations.en.staff_sub_side_link1
+                  : translations.vi.staff_sub_side_link1,
+              icon: ContactRound,
+            },
+            {
+              href: "/salary-manage",
+              label:
+                language === "en"
+                  ? translations.en.staff_sub_side_link2
+                  : translations.vi.staff_sub_side_link2,
+              icon: SlidersHorizontal,
+            },
+          ]}
+        />
+        <SidebarLink
+          icon={ChartColumnIncreasing}
+          label={
+            language === "en"
+              ? translations.en.statistic
+              : translations.vi.statistic
+          }
+          isCollapsed={isSidebarCollapsed}
+          subMenu={[
+            {
+              href: "/staff-manage",
+              label:
+                language === "en"
+                  ? translations.en.staff_sub_side_link1
+                  : translations.vi.staff_sub_side_link1,
+              icon: ContactRound,
+            },
+            {
+              href: "/salary-manage",
+              label:
+                language === "en"
+                  ? translations.en.staff_sub_side_link2
+                  : translations.vi.staff_sub_side_link2,
+              icon: SlidersHorizontal,
+            },
+          ]}
         />
       </div>
 

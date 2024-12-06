@@ -175,7 +175,7 @@ const Dashboard = () => {
                     </span>
                   </div>
                   <div className="h-full w-[20%] flex items-center justify-center gap-1">
-                    <FaTurnDown className="w-4 h-4" color="#c0392b" />
+                    <FaTurnDown className="w-4 h-4" color="#e74c3c" />
                     <span className="text-base font-bold text-red-500">1%</span>
                   </div>
                 </div>

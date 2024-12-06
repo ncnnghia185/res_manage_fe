@@ -60,7 +60,6 @@ import {
 import UpdateTable from "./components/UpdateModal";
 import DeleteTable from "./components/DeleteModal";
 import { menuServices, tableServices } from "@/services";
-// import Pagination from "../(components)/Pagination";
 
 type Props = {};
 

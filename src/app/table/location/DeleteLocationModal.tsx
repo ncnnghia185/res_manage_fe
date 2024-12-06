@@ -103,7 +103,7 @@ const DeleteLocationModal = ({
         </div>
 
         {/* Contents */}
-        {countItems !== 0 ? (
+        {countItems && countItems > 0 ? (
           <div className="h-14 w-full flex items-center justify-center mt-2 gap-2">
             <TriangleAlert size={22} color="#e74c3c" />
             <div className="h-full flex-1 flex flex-col gap-2">
@@ -136,7 +136,7 @@ const DeleteLocationModal = ({
 
         {/* Footer */}
         <div className="w-full h-14  mt-2 flex items-center justify-end gap-2 pr-3">
-          {countItems !== 0 ? (
+          {countItems && countItems > 0 ? (
             <button
               className="w-28 h-10 bg-[#ef4444] border rounded-md"
               type="submit"

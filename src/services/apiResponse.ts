@@ -31,6 +31,20 @@ export interface CreateRestaurantResponse{
   data: successAddRestaurant
 }
 
+export interface GetCurrentRestaurantResponse{
+	success:boolean,
+	message:string,
+	data:{
+		id:number,
+		name:string,
+    address:string,
+    phone_number:string,
+		image?:string,
+		description?:string,
+    owner_id:number
+	}
+}
+
 // location api response
 export interface LocationData{
 	id:number,
@@ -220,6 +234,41 @@ export interface UpdateEndShiftFund{
 	message:string
 }
 export interface UpdateShiftFundNotesResponse{
+	success:boolean,
+	message:string
+}
+
+// order api response
+export interface CreateOrderResponse{
+	success: boolean,
+    message: string,
+	data:{
+		orderId:string,
+		tableId:number
+	}
+}
+export interface OrderInfoData{
+	id:string,
+	table_id:number,
+	order_time:string,
+	total_amout:number,
+	order_status:string,
+	notes:string,
+	status_payment:string,
+	customer_name:string,
+	number_of_customer:string,
+	total_amount:number,
+	payment_type:string,
+
+}
+export interface GetOrderInfo{
+	success:boolean,
+	message:string,
+	data:OrderInfoData
+}
+
+// order details response 
+export interface CreateOrderDetailResponse{
 	success:boolean,
 	message:string
 }
