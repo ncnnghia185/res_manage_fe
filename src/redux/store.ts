@@ -26,6 +26,7 @@ import { locationReducer } from "@/redux/tableState/locationSlice";
 import { tableReducer } from "@/redux/tableState/tableSlice";
 import { menuItemReducer } from "./menuState/menuSlice";
 import { shiftFundReducer } from "./shift_fund/shift_fundSlice";
+import { orderReducer } from "./orderState/orderSlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
   location: locationReducer,
   table: tableReducer,
   menu_item: menuItemReducer,
-  shift_fund:shiftFundReducer
+  shift_fund:shiftFundReducer,
+  order:orderReducer
 });
 
 const persistConfig = {
