@@ -272,3 +272,57 @@ export interface CreateOrderDetailResponse{
 	success:boolean,
 	message:string
 }
+
+export interface AllStaffData{
+	id:string,
+	fullname:string,
+	gender:string,
+	phone_number:string,
+	hire_date:string,
+	net_salary:string,
+	position:string,
+	status_work:string,
+	staff_type:string
+}
+export interface StaffInfo{
+	id:string,
+	fullname:string,
+	gender:string,
+	date_of_birth:string,
+	phone_number:string,
+	address:string,
+	identification_card:string,
+	hire_date:string,
+	net_salary:string,
+	status_work:string,
+	end_date_hire:string | null,
+	staff_type:string,
+	position:string,
+}
+// staff information response
+export interface CreateNewStaffResponse{
+	success:boolean,
+	message:string
+}
+
+export interface GetAllStaffResponse{
+	success:boolean,
+	message:string,
+	data: AllStaffData[]
+}
+
+export interface GetOneStaffResponse{
+	success:boolean,
+	message:string,
+	data: StaffInfo
+}
+
+export interface UpdateStaffResponse{
+    success: boolean,
+    message: string
+}
+
+export interface DeleteStaffResponse{
+    success: boolean,
+    message: string
+}
