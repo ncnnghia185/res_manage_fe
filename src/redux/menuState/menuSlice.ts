@@ -10,7 +10,7 @@ const initialState: MenuItemState = {
 }
 
 export const fetchAllMenuItems = createAsyncThunk(
-	"menu/fetchAll0",
+	"menu/fetchAll",
 	async({accessToken, owner_id, restaurant_id} : {accessToken:string,owner_id:number, restaurant_id:number} ) =>{
 		const response:GetAllMenuItemResponse = await menuServices.getAllMenu(accessToken,owner_id, restaurant_id)
 		return response.data

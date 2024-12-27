@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+type Language = "en" | "vi";
 export interface GlobalStateTypes{
 	isSidebarCollapsed: boolean;
 	sidebarSmallCollapsed: boolean;
 	isDarkMode: boolean;
-	language: string
+	language: Language
 }
 
 const initialGlobalState: GlobalStateTypes = {
 	isSidebarCollapsed: false,
 	sidebarSmallCollapsed:true,
-  isDarkMode: false,
+  	isDarkMode: false,
 	language: "vi"
 };
 
@@ -28,7 +28,7 @@ export const globalSlice = createSlice({
 		setIsDarkMode: (state, action: PayloadAction<boolean>) => {
 			state.isDarkMode = action.payload
 		},
-		setLanguage: (state, action:PayloadAction<string>) =>{
+		setLanguage: (state, action:PayloadAction<Language>) =>{
 			state.language = action.payload
 		}
 	}

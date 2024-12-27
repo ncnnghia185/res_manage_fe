@@ -104,3 +104,16 @@ export const formatCurrency = (amount:string, language:string) :string=>{
 
   return numericAmount;
 }
+
+export const formatInputCurrency = (value:string) => {
+  // Loại bỏ tất cả các dấu chấm để chuyển đổi về số nguyên
+  const numericValue = value.replace(/[^0-9]/g, '');
+  
+  // Kiểm tra xem có phải là số không
+  if (!/^\d*$/.test(numericValue)) {
+    return value; // Nếu không phải số, giữ nguyên giá trị
+  }
+  
+  // Định dạng số với dấu chấm
+  return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
