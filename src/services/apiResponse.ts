@@ -326,3 +326,22 @@ export interface DeleteStaffResponse{
     success: boolean,
     message: string
 }
+
+// INGREDIENTS API RESPONSE
+export interface AllPurchaseSummaryByMonthData {
+	id:number,
+	month:number,
+	year:number,
+	total_daily_purchase:number,
+	date:string
+}
+export interface GetPurchasesSummaryByMonthResponse{
+	success:boolean,
+	message:string,
+	data: AllPurchaseSummaryByMonthData[]
+}
+
+export interface CreatePurchaseIngredientsResponse{
+	success: boolean,
+    message: string
+}

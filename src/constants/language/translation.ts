@@ -346,6 +346,13 @@ export const translations = {
     attendance_last_7_days:"Attendance within the last 7 days",
     update_staff_label:"Update staff information",
     stop_work_staff_label:"Stop working of staff",
+
+    // buy ingredeint manage
+    add_ingredient_label:"Manage buy ingredients",
+    add_buy_ingredient:"Add buy ingredient",
+    tooltip_infor_amount:"Automatically calculated based on ingredients price",
+    error_create_purchase_ingredients:"Create purchase ingredients failed",
+    success_create_purchase_ingredients:"Create purchase ingredients successfully",
   },
   vi: {
     // home page translations
@@ -697,5 +704,12 @@ export const translations = {
     attendance_last_7_days:"Chấm công 7 ngày gần nhất",
     update_staff_label:"Cập nhật thông tin nhân viên",
     stop_work_staff_label:"Dừng việc làm của nhân viên",
+
+    // buy ingredient manage
+    add_ingredient_label: "Quản lý mua nguyên liệu",
+    add_buy_ingredient:"Thêm mua nguyên liệu",
+    tooltip_infor_amount:"Tự động tính theo giá nguyên liệu",
+    error_create_purchase_ingredients:"Tạo mới mua nguyên liệu thất bại",
+    success_create_purchase_ingredients:"Tạo mới mua nguyên liệu thành công",
   },
 };
